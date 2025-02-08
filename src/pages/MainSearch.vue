@@ -14,7 +14,7 @@
       </template>
       <!-- Add button to search for mobile -->
       <template v-slot:after>
-        <q-btn flat round icon="search" @click="searchVideos" />
+        <q-btn :loading="loadingSearch" flat round icon="search" @click="searchVideos" />
       </template>
     </q-input>
 
@@ -68,8 +68,10 @@ const musicReproductorStore = useMusicReproductor()
 
 const query = ref('')
 const videos = ref([])
+const loadingSearch = ref(false)
 
 const searchVideos = async () => {
+  loadingSearch.value = true
   const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
     params: {
       part: 'snippet',
@@ -92,6 +94,8 @@ const searchVideos = async () => {
     ...item,
     contentDetails: detailsResponse.data?.items[index]?.contentDetails,
   }))
+
+  loadingSearch.value = false
 }
 
 const playAudio = (video) => {
