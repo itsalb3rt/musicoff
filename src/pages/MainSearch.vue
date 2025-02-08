@@ -16,6 +16,7 @@
             <div>{{ video.snippet.title }}</div>
             <div caption>{{ video.snippet.channelTitle }}</div>
             <div caption>{{ video?.contentDetails?.duration }}</div>
+            <div caption>{{ formatYouTubeDuration(video?.contentDetails?.duration) }}</div>
           </div>
           <div class="col-12">
             <q-btn
@@ -33,6 +34,7 @@
         </div>
       </q-card-section>
     </q-card>
+    <div style="height: 100px" />
   </q-page>
 </template>
 
@@ -40,6 +42,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
+import { formatYouTubeDuration } from 'src/utils/functions'
 
 const musicReproductorStore = useMusicReproductor()
 

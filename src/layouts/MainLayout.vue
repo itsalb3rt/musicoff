@@ -7,7 +7,7 @@
   </q-layout>
   <div id="player"></div>
   <q-dialog seamless v-model="musicReproductorStore.showPlayer" position="bottom">
-    <q-card style="width: 350px">
+    <q-card style="width: 350px; margin-bottom: 80px">
       <q-linear-progress :value="0.6" color="pink" />
 
       <q-card-section>
@@ -26,12 +26,15 @@
             <div class="text-caption ellipsis">
               {{ musicReproductorStore.current.snippet.channelTitle }}
             </div>
+            <div class="text-caption ellipsis">
+              {{ formatYouTubeDuration(musicReproductorStore.current?.contentDetails?.duration) }}
+            </div>
           </div>
           <div class="col-4">
-            <q-btn flat round icon="fast_rewind" />
+            <q-btn disable flat round icon="fast_rewind" />
             <q-btn v-if="isPaused" @click="play" flat round icon="play_arrow" />
             <q-btn v-else @click="pause" flat round icon="pause" />
-            <q-btn flat round icon="fast_forward" />
+            <q-btn disable flat round icon="fast_forward" />
           </div>
         </div>
       </q-card-section>
@@ -45,6 +48,7 @@ import { ref, watch, onMounted } from 'vue'
 import NavBar from 'components/NavBar.vue'
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
 import YoutubePlayer from 'youtube-player'
+import { formatYouTubeDuration } from 'src/utils/functions'
 
 const player = ref(null)
 const isPaused = ref(false)
