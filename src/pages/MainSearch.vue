@@ -6,22 +6,33 @@
       placeholder="Search YouTube videos"
       @keyup.enter="searchVideos"
     />
-    <q-list v-if="videos.length">
-      <q-item v-for="video in videos" :key="video.id.videoId">
-        <q-item-section avatar>
-          <img :src="video.snippet.thumbnails.default.url" alt="thumbnail" />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>{{ video.snippet.title }}</q-item-label>
-          <q-item-label caption>{{ video.snippet.channelTitle }}</q-item-label>
-          <q-item-label caption>{{ video?.contentDetails?.duration }}</q-item-label>
-        </q-item-section>
-        <q-item-section side>
-          <q-btn @click="playAudio(video)" label="Play as Audio" />
-          <q-btn @click="downloadAudio(video.id.videoId)" label="Download as Audio" />
-        </q-item-section>
-      </q-item>
-    </q-list>
+    <q-card flat bordered class="q-my-md" v-for="video in videos" :key="video.id.videoId">
+      <q-card-section>
+        <div class="row q-col-gutter-md">
+          <div class="col-3">
+            <q-img :src="video.snippet.thumbnails.default.url" alt="thumbnail" />
+          </div>
+          <div class="col-9">
+            <div>{{ video.snippet.title }}</div>
+            <div caption>{{ video.snippet.channelTitle }}</div>
+            <div caption>{{ video?.contentDetails?.duration }}</div>
+          </div>
+          <div class="col-12">
+            <q-btn
+              :color="
+                musicReproductorStore.current.id.videoId === video.id.videoId ? 'green' : 'dark'
+              "
+              rounded
+              outline
+              class="q-mr-sm"
+              @click="playAudio(video)"
+              icon="play_arrow"
+            />
+            <q-btn rounded outline @click="downloadAudio(video.id.videoId)" icon="download" />
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
