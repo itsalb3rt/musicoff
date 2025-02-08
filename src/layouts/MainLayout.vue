@@ -27,6 +27,7 @@
               {{ musicReproductorStore.current.snippet.channelTitle }}
             </div>
             <div class="text-caption ellipsis">
+              {{ playbackTime }} /
               {{ formatYouTubeDuration(musicReproductorStore.current?.contentDetails?.duration) }}
             </div>
           </div>
@@ -44,7 +45,7 @@
 
 <script setup>
 import { storeToRefs } from 'pinia'
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import NavBar from 'components/NavBar.vue'
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
 import YoutubePlayer from 'youtube-player'
@@ -52,10 +53,36 @@ import { formatYouTubeDuration } from 'src/utils/functions'
 
 const player = ref(null)
 const isPaused = ref(false)
+const playbackTime = ref('0:00') // Store current playback time
+let updateTimeInterval = null // Store interval ID
 
 const musicReproductorStore = useMusicReproductor()
-
 const { videoId } = storeToRefs(musicReproductorStore)
+
+// Function to update playback time
+const updatePlaybackTime = async () => {
+  if (!player.value) return
+  const currentTime = await player.value.getCurrentTime()
+  playbackTime.value = formatTime(currentTime)
+}
+
+// Function to format seconds to MM:SS
+const formatTime = (seconds) => {
+  const min = Math.floor(seconds / 60)
+  const sec = Math.floor(seconds % 60)
+  return `${min}:${sec.toString().padStart(2, '0')}`
+}
+
+// Function to start updating playback time
+const startPlaybackTimer = () => {
+  if (updateTimeInterval) clearInterval(updateTimeInterval)
+  updateTimeInterval = setInterval(updatePlaybackTime, 1000)
+}
+
+// Function to stop updating playback time
+const stopPlaybackTimer = () => {
+  clearInterval(updateTimeInterval)
+}
 
 onMounted(() => {
   player.value = YoutubePlayer('player', {
@@ -63,15 +90,26 @@ onMounted(() => {
     width: '0',
     videoId: videoId.value,
   })
+
+  player.value.on('stateChange', (event) => {
+    if (event.data === 1) {
+      // Playing
+      isPaused.value = false
+      startPlaybackTimer()
+    } else {
+      isPaused.value = true
+      stopPlaybackTimer()
+    }
+  })
 })
 
 watch(
   videoId,
   (newVideoId) => {
-    // persist the whole state to the local storage whenever it changes
     console.log(musicReproductorStore.current)
     player.value.loadVideoById(newVideoId)
     isPaused.value = false
+    playbackTime.value = '0:00' // Reset playback time
   },
   { deep: true },
 )
@@ -79,10 +117,17 @@ watch(
 const pause = () => {
   isPaused.value = true
   player.value.pauseVideo()
+  stopPlaybackTimer()
 }
 
 const play = () => {
   isPaused.value = false
   player.value.playVideo()
+  startPlaybackTimer()
 }
+
+// Cleanup on component unmount
+onUnmounted(() => {
+  stopPlaybackTimer()
+})
 </script>
