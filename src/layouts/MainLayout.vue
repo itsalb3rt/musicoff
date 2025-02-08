@@ -1,102 +1,88 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
+    <q-page-container class="top-safe-area" style="max-width: 900px; margin: auto">
       <router-view />
+      <NavBar />
     </q-page-container>
   </q-layout>
+  <div id="player"></div>
+  <q-dialog seamless v-model="musicReproductorStore.showPlayer" position="bottom">
+    <q-card style="width: 350px">
+      <q-linear-progress :value="0.6" color="pink" />
+
+      <q-card-section>
+        <div class="row">
+          <div class="col-2">
+            <img
+              :src="musicReproductorStore.current.snippet.thumbnails.default.url"
+              alt="thumbnail"
+              style="width: 50px; height: 50px"
+            />
+          </div>
+          <div class="col-6">
+            <div class="text-weight-bold ellipsis">
+              {{ musicReproductorStore.current.snippet.title }}
+            </div>
+            <div class="text-caption ellipsis">
+              {{ musicReproductorStore.current.snippet.channelTitle }}
+            </div>
+          </div>
+          <div class="col-4">
+            <q-btn flat round icon="fast_rewind" />
+            <q-btn v-if="isPaused" @click="play" flat round icon="play_arrow" />
+            <q-btn v-else @click="pause" flat round icon="pause" />
+            <q-btn flat round icon="fast_forward" />
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import { storeToRefs } from 'pinia'
+import { ref, watch, onMounted } from 'vue'
+import NavBar from 'components/NavBar.vue'
+import { useMusicReproductor } from 'src/stores/MusicReproductor'
+import YoutubePlayer from 'youtube-player'
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+const player = ref(null)
+const isPaused = ref(false)
 
-const leftDrawerOpen = ref(false)
+const musicReproductorStore = useMusicReproductor()
 
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+const { videoId } = storeToRefs(musicReproductorStore)
+
+onMounted(() => {
+  player.value = YoutubePlayer('player', {
+    height: '0',
+    width: '0',
+    videoId: videoId.value,
+  })
+
+  player.value.on('stateChange', (event) => {
+    console.log(event)
+  })
+})
+
+watch(
+  videoId,
+  (newVideoId) => {
+    // persist the whole state to the local storage whenever it changes
+    console.log(musicReproductorStore.current)
+    player.value.loadVideoById(newVideoId)
+    isPaused.value = false
+  },
+  { deep: true },
+)
+
+const pause = () => {
+  isPaused.value = true
+  player.value.pauseVideo()
+}
+
+const play = () => {
+  isPaused.value = false
+  player.value.playVideo()
 }
 </script>

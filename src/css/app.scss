@@ -1,1 +1,4 @@
 // app global css in SCSS form
+.top-safe-area {
+  padding-top: env(safe-area-inset-top);
+}
