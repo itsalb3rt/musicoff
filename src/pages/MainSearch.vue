@@ -49,7 +49,13 @@
               @click="playAudio(video)"
               icon="play_arrow"
             />
-            <q-btn rounded outline @click="downloadAudio(video.id.videoId)" icon="download" />
+            <q-btn
+              :loading="downloadingVideoId === video.id.videoId"
+              rounded
+              outline
+              @click="downloadAudio(video.id.videoId)"
+              icon="download"
+            />
           </div>
         </div>
       </q-card-section>
@@ -69,6 +75,7 @@ const musicReproductorStore = useMusicReproductor()
 const query = ref('')
 const videos = ref([])
 const loadingSearch = ref(false)
+const downloadingVideoId = ref('')
 
 const searchVideos = async () => {
   loadingSearch.value = true
@@ -106,6 +113,26 @@ const playAudio = (video) => {
 }
 
 const downloadAudio = (videoId) => {
-  console.log('🚀 ~ downloadAudio ~ videoId:', videoId)
+  downloadingVideoId.value = videoId
+  fetch('http://localhost:4000/download-audio', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ url: `https://www.youtube.com/watch?v=${videoId}` }),
+  })
+    .then((response) => response.blob())
+    .then((blob) => {
+      const url = window.URL.createObjectURL(new Blob([blob]))
+      const link = document.createElement('a')
+      link.href
+      link.setAttribute('href', url)
+      link.setAttribute('download', 'audio.mp3')
+      link.click()
+    })
+    .catch((error) => console.error('🚀 ~ downloadAudio ~ error', error))
+    .finally(() => {
+      downloadingVideoId.value = ''
+    })
 }
 </script>
