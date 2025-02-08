@@ -1,4 +1,11 @@
 export const formatYouTubeDuration = (duration) => {
+  if (!duration) return '0 seconds';
+
+  // check if the duration is a valid ISO 8601 duration
+  if (!/^PT(\d+H)?(\d+M)?(\d+S)?$/.test(duration)) {
+    return '0 seconds';
+  }
+
   const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
 
   const hours = match[1] ? parseInt(match[1]) : 0;

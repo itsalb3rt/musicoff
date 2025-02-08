@@ -5,7 +5,18 @@
       v-model="query"
       placeholder="Search YouTube videos"
       @keyup.enter="searchVideos"
-    />
+    >
+      <template v-slot:prepend>
+        <q-icon name="search" />
+      </template>
+      <template v-slot:append>
+        <q-btn flat round icon="close" v-if="query" @click="query = ''" />
+      </template>
+      <!-- Add button to search for mobile -->
+      <template v-slot:after>
+        <q-btn flat round icon="search" @click="searchVideos" />
+      </template>
+    </q-input>
     <q-card flat bordered class="q-my-md" v-for="video in videos" :key="video.id.videoId">
       <q-card-section>
         <div class="row q-col-gutter-md">
@@ -21,7 +32,9 @@
           <div class="col-12">
             <q-btn
               :color="
-                musicReproductorStore?.current?.id?.videoId === video.id.videoId ? 'green' : 'dark'
+                musicReproductorStore?.current?.id?.videoId === video.id.videoId
+                  ? 'primary'
+                  : 'dark'
               "
               rounded
               outline

@@ -11,7 +11,7 @@
       v-model="tab"
       align="justify"
       :mobile-arrows="false"
-      active-color="accent"
+      active-color="primary"
       indicator-color="transparent"
     >
       <q-route-tab class="q-py-md" name="dashboard" to="/" icon="home">

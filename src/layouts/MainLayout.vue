@@ -8,7 +8,7 @@
   <div id="player"></div>
   <q-dialog seamless v-model="musicReproductorStore.showPlayer" position="bottom">
     <q-card style="width: 350px; margin-bottom: 80px">
-      <q-linear-progress :value="0.6" color="pink" />
+      <q-linear-progress v-if="!isPaused" color="primary" indeterminate />
 
       <q-card-section>
         <div class="row">
@@ -106,7 +106,6 @@ onMounted(() => {
 watch(
   videoId,
   (newVideoId) => {
-    console.log(musicReproductorStore.current)
     player.value.loadVideoById(newVideoId)
     isPaused.value = false
     playbackTime.value = '0:00' // Reset playback time
