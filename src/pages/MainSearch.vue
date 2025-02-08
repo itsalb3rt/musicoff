@@ -17,6 +17,13 @@
         <q-btn flat round icon="search" @click="searchVideos" />
       </template>
     </q-input>
+
+    <template v-if="videos.length === 0">
+      <div class="text-h6 text-center text-grey" style="margin-top: 50%">
+        {{ $t('messages.searchForVideos') }}
+      </div>
+    </template>
+
     <q-card flat bordered class="q-my-md" v-for="video in videos" :key="video.id.videoId">
       <q-card-section>
         <div class="row q-col-gutter-md">

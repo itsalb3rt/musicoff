@@ -8,5 +8,8 @@ export default {
     search: 'Search',
     music: 'Music',
     settings: 'Settings',
+  },
+  messages: {
+    searchForVideos: 'Search for videos',
   }
 }
