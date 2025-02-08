@@ -59,10 +59,6 @@ onMounted(() => {
     width: '0',
     videoId: videoId.value,
   })
-
-  player.value.on('stateChange', (event) => {
-    console.log(event)
-  })
 })
 
 watch(

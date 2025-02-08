@@ -20,7 +20,7 @@
           <div class="col-12">
             <q-btn
               :color="
-                musicReproductorStore.current.id.videoId === video.id.videoId ? 'green' : 'dark'
+                musicReproductorStore?.current?.id?.videoId === video.id.videoId ? 'green' : 'dark'
               "
               rounded
               outline
@@ -80,6 +80,5 @@ const playAudio = (video) => {
 
 const downloadAudio = (videoId) => {
   console.log('🚀 ~ downloadAudio ~ videoId:', videoId)
-  // Implement download audio functionality
 }
 </script>
