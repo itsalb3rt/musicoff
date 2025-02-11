@@ -306,7 +306,11 @@ const play = () => {
 
 const next = () => {
   if (musicReproductorStore.random) {
-    // TODO: Implement random music
+    const randomIndex = Math.floor(Math.random() * musicStore.downloaded.length)
+    const music = musicStore.downloaded[randomIndex]
+    musicReproductorStore.setVideoId(music.uuid)
+    musicReproductorStore.current = getCurrentMusicStructured(music)
+    musicReproductorStore.lastMusic = getCurrentMusicStructured(music)
   } else {
     const index = musicStore.downloaded.findIndex(
       (music) => music.uuid === musicReproductorStore.current.id.videoId,
