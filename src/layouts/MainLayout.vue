@@ -121,6 +121,46 @@ watch(
       setTimeout(() => {
         audioRef.value.play()
         startPlaybackTimer()
+
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: musicReproductorStore.current.snippet.title,
+            artwork: [
+              {
+                src: musicReproductorStore.current.snippet.thumbnails.default.url,
+                sizes: '96x96',
+                type: 'image/png',
+              },
+              {
+                src: musicReproductorStore.current.snippet.thumbnails.default.url,
+                sizes: '128x128',
+                type: 'image/png',
+              },
+              {
+                src: musicReproductorStore.current.snippet.thumbnails.default.url,
+                sizes: '192x192',
+                type: 'image/png',
+              },
+              {
+                src: musicReproductorStore.current.snippet.thumbnails.default.url,
+                sizes: '256x256',
+                type: 'image/png',
+              },
+              {
+                src: musicReproductorStore.current.snippet.thumbnails.default.url,
+                sizes: '384x384',
+                type: 'image/png',
+              },
+              {
+                src: musicReproductorStore.current.snippet.thumbnails.default.url,
+                sizes: '512x512',
+                type: 'image/png',
+              },
+            ],
+          })
+
+          // TODO: Update playback state.
+        }
       }, 1000)
       // is local audio
     }
