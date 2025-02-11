@@ -1,5 +1,5 @@
 <template>
-  <q-card flat>
+  <q-card :class="musicReproductorStore.current.id.videoId === music.uuid ? 'bg-primary' : ''" flat>
     <q-card-section>
       <div class="row items-center q-col-gutter-md">
         <div class="col-3" style="position: relative">
