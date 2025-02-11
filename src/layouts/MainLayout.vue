@@ -13,14 +13,14 @@
 
       <q-card-section>
         <div class="row">
-          <div class="col-2">
+          <div class="col-2" @click="handleShowReproductorOnFullScreen">
             <img
               :src="musicReproductorStore.current.snippet.thumbnails.default.url"
               alt="thumbnail"
               style="width: 50px; height: 50px"
             />
           </div>
-          <div class="col-6">
+          <div class="col-6" @click="handleShowReproductorOnFullScreen">
             <div class="text-weight-bold ellipsis">
               {{ musicReproductorStore.current.snippet.title }}
             </div>
@@ -39,6 +39,53 @@
             <q-btn dense @click="next" flat round icon="fast_forward" />
           </div>
         </div>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog maximized v-model="showPlayerOnFullScreen">
+    <q-card class="bg-dark text-white" style="height: 100vh; display: flex; flex-direction: column">
+      <q-card-section class="row justify-between items-center q-pa-md">
+        <q-btn flat round dense icon="arrow_back" @click="handleHideReproductorOnFullScreen" />
+      </q-card-section>
+      <q-card-section>
+        <div class="text-h6 text-center">
+          {{ musicReproductorStore.current.snippet.title }}
+        </div>
+      </q-card-section>
+
+      <q-card-section class="flex flex-center" style="flex-grow: 1">
+        <img
+          :src="musicReproductorStore.current.snippet.thumbnails.default.url"
+          alt="thumbnail"
+          style="max-width: 80%; max-height: 60vh; border-radius: 8px"
+        />
+      </q-card-section>
+
+      <q-card-section class="q-pa-md">
+        <div class="text-center text-caption">
+          {{ musicReproductorStore.current.snippet.channelTitle }}
+        </div>
+        <div class="text-center text-caption">
+          {{ playbackTime }} /
+          {{ formatYouTubeDuration(musicReproductorStore.current?.contentDetails?.duration) }}
+        </div>
+        <q-linear-progress v-if="!isPaused" color="primary" indeterminate class="q-mt-md" />
+      </q-card-section>
+
+      <q-card-section class="row justify-center q-pa-md">
+        <q-btn @click="back" flat round icon="fast_rewind" size="xl" />
+        <q-btn
+          v-if="isPaused"
+          @click="play"
+          flat
+          round
+          icon="play_arrow"
+          size="xl"
+          class="q-mx-md"
+        />
+        <q-btn v-else @click="pause" flat round icon="pause" size="xl" class="q-mx-md" />
+        <q-btn @click="next" flat round icon="fast_forward" size="xl" />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -63,10 +110,21 @@ const playbackTime = ref('0:00') // Store current playback time
 let updateTimeInterval = null // Store interval ID
 const audio = ref(null)
 const audioRef = ref(null)
+const showPlayerOnFullScreen = ref(false)
 
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
 const { videoId } = storeToRefs(musicReproductorStore)
+
+const handleShowReproductorOnFullScreen = () => {
+  musicReproductorStore.showPlayer = false
+  showPlayerOnFullScreen.value = true
+}
+
+const handleHideReproductorOnFullScreen = () => {
+  showPlayerOnFullScreen.value = false
+  musicReproductorStore.showPlayer = true
+}
 
 // Function to update playback time
 const updatePlaybackTime = async () => {
