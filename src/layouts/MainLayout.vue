@@ -206,7 +206,15 @@ onMounted(() => {
   })
 
   audioRef.value.onended = () => {
-    next()
+    if (musicReproductorStore.repeat) {
+      if (validate(musicReproductorStore.current.id.videoId)) {
+        audioRef.value.play()
+      } else {
+        player.value.playVideo()
+      }
+    } else {
+      next()
+    }
   }
 })
 
