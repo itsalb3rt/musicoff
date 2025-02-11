@@ -116,6 +116,14 @@ onMounted(() => {
   navigator.mediaSession.setActionHandler('pause', () => {
     pause()
   })
+
+  navigator.mediaSession.setActionHandler('previoustrack', () => {
+    // Play previous track.
+  })
+
+  navigator.mediaSession.setActionHandler('nexttrack', () => {
+    // Play next track.
+  })
 })
 
 watch(
@@ -125,52 +133,7 @@ watch(
       /// is a youtube video
       player.value.loadVideoById(newVideoId)
     } else {
-      audio.value = await readMusic(newVideoId)
-      setTimeout(() => {
-        audioRef.value.play()
-        startPlaybackTimer()
-
-        if ('mediaSession' in navigator) {
-          navigator.mediaSession.metadata = new MediaMetadata({
-            title: musicReproductorStore.current.snippet.title,
-            artwork: [
-              {
-                src: musicReproductorStore.current.snippet.thumbnails.default.url,
-                sizes: '96x96',
-                type: 'image/png',
-              },
-              {
-                src: musicReproductorStore.current.snippet.thumbnails.default.url,
-                sizes: '128x128',
-                type: 'image/png',
-              },
-              {
-                src: musicReproductorStore.current.snippet.thumbnails.default.url,
-                sizes: '192x192',
-                type: 'image/png',
-              },
-              {
-                src: musicReproductorStore.current.snippet.thumbnails.default.url,
-                sizes: '256x256',
-                type: 'image/png',
-              },
-              {
-                src: musicReproductorStore.current.snippet.thumbnails.default.url,
-                sizes: '384x384',
-                type: 'image/png',
-              },
-              {
-                src: musicReproductorStore.current.snippet.thumbnails.default.url,
-                sizes: '512x512',
-                type: 'image/png',
-              },
-            ],
-          })
-
-          // TODO: Update playback state.
-        }
-      }, 1000)
-      // is local audio
+      playLocal(newVideoId)
     }
 
     isPaused.value = false
@@ -178,6 +141,52 @@ watch(
   },
   { deep: true },
 )
+
+const playLocal = async (uuid) => {
+  audio.value = await readMusic(uuid)
+  setTimeout(() => {
+    audioRef.value.play()
+    startPlaybackTimer()
+
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: musicReproductorStore.current.snippet.title,
+        artwork: [
+          {
+            src: musicReproductorStore.current.snippet.thumbnails.default.url,
+            sizes: '96x96',
+            type: 'image/png',
+          },
+          {
+            src: musicReproductorStore.current.snippet.thumbnails.default.url,
+            sizes: '128x128',
+            type: 'image/png',
+          },
+          {
+            src: musicReproductorStore.current.snippet.thumbnails.default.url,
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: musicReproductorStore.current.snippet.thumbnails.default.url,
+            sizes: '256x256',
+            type: 'image/png',
+          },
+          {
+            src: musicReproductorStore.current.snippet.thumbnails.default.url,
+            sizes: '384x384',
+            type: 'image/png',
+          },
+          {
+            src: musicReproductorStore.current.snippet.thumbnails.default.url,
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      })
+    }
+  }, 1000)
+}
 
 const pause = () => {
   if (audioRef.value) {
@@ -202,6 +211,8 @@ const play = () => {
   }
   startPlaybackTimer()
 }
+
+// const next = () => {}
 
 // Cleanup on component unmount
 onUnmounted(() => {
