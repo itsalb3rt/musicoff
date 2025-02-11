@@ -122,11 +122,11 @@ onMounted(() => {
   })
 
   navigator.mediaSession.setActionHandler('previoustrack', () => {
-    // Play previous track.
+    back()
   })
 
   navigator.mediaSession.setActionHandler('nexttrack', () => {
-    // Play next track.
+    next()
   })
 })
 
