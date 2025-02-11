@@ -133,10 +133,11 @@ onMounted(() => {
 watch(
   videoId,
   async (newVideoId) => {
+    console.log('🚀 ~ newVideoId:', newVideoId)
     if (!validate(newVideoId)) {
       /// is a youtube video
 
-      if (audioRef.value) {
+      if (audioRef.value && audioRef.value.pause) {
         audioRef.value.pause()
       }
 
