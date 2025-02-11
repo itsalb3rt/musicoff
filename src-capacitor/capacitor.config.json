@@ -1,5 +1,5 @@
 {
   "appId": "org.music.off.app",
-  "appName": "An application to listen offline music",
+  "appName": "MusicOff",
   "webDir": "www"
 }

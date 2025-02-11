@@ -2,7 +2,7 @@
   "name": "musicoff",
   "version": "0.0.1",
   "description": "An application to listen offline music",
-  "productName": "An application to listen offline music",
+  "productName": "MusicOff",
   "author": "Albert Hidalgo <itsalb3rt@gmail.com>",
   "type": "module",
   "private": true,
