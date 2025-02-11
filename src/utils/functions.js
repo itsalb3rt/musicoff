@@ -19,3 +19,26 @@ export const formatYouTubeDuration = (duration) => {
 
   return formattedDuration.join(' ') || '0 seconds';
 }
+
+export const base64ToAudio = (base64) => {
+  console.log('🚀 ~ base64ToAudio ~ base64:', base64)
+  // Remove the data prefix if exists (e.g., "data:audio/mp3;base64,")
+  const base64String = base64.split(',')[1];
+
+  // Convert Base64 to raw binary data
+  const byteCharacters = atob(base64String);
+  const byteNumbers = new Array(byteCharacters.length);
+
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+
+  // Create Uint8Array
+  const byteArray = new Uint8Array(byteNumbers);
+
+  // Create Blob from binary data
+  const blob = new Blob([byteArray], { type: "audio/mp3" });
+
+  // Create Object URL
+  return URL.createObjectURL(blob);
+}

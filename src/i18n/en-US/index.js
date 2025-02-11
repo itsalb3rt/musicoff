@@ -11,5 +11,9 @@ export default {
   },
   messages: {
     searchForVideos: 'Search for videos',
+    areYouSureYouWantToDelete: 'Are you sure you want to delete?',
+  },
+  action: {
+    delete: 'Delete',
   }
 }

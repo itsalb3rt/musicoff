@@ -6,6 +6,7 @@
     </q-page-container>
   </q-layout>
   <div id="player"></div>
+  <audio ref="audioRef" :src="`data:audio/mp3;base64,${audio}`" autobuffer="autobuffer" />
   <q-dialog seamless v-model="musicReproductorStore.showPlayer" position="bottom">
     <q-card style="width: 350px; margin-bottom: 80px">
       <q-linear-progress v-if="!isPaused" color="primary" indeterminate />
@@ -32,10 +33,10 @@
             </div>
           </div>
           <div class="col-4">
-            <q-btn disable flat round icon="fast_rewind" />
-            <q-btn v-if="isPaused" @click="play" flat round icon="play_arrow" />
-            <q-btn v-else @click="pause" flat round icon="pause" />
-            <q-btn disable flat round icon="fast_forward" />
+            <q-btn dense disable flat round icon="fast_rewind" />
+            <q-btn dense v-if="isPaused" @click="play" flat round icon="play_arrow" />
+            <q-btn dense v-else @click="pause" flat round icon="pause" />
+            <q-btn dense disable flat round icon="fast_forward" />
           </div>
         </div>
       </q-card-section>
@@ -50,11 +51,15 @@ import NavBar from 'components/NavBar.vue'
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
 import YoutubePlayer from 'youtube-player'
 import { formatYouTubeDuration } from 'src/utils/functions'
+import { readMusic } from 'src/utils/file'
+import { validate } from 'uuid'
 
 const player = ref(null)
 const isPaused = ref(false)
 const playbackTime = ref('0:00') // Store current playback time
 let updateTimeInterval = null // Store interval ID
+const audio = ref(null)
+const audioRef = ref(null)
 
 const musicReproductorStore = useMusicReproductor()
 const { videoId } = storeToRefs(musicReproductorStore)
@@ -62,7 +67,9 @@ const { videoId } = storeToRefs(musicReproductorStore)
 // Function to update playback time
 const updatePlaybackTime = async () => {
   if (!player.value) return
-  const currentTime = await player.value.getCurrentTime()
+  const currentTime = validate(musicReproductorStore.current.id.videoId)
+    ? audioRef.value.currentTime
+    : await player.value.getCurrentTime()
   playbackTime.value = formatTime(currentTime)
 }
 
@@ -105,8 +112,19 @@ onMounted(() => {
 
 watch(
   videoId,
-  (newVideoId) => {
-    player.value.loadVideoById(newVideoId)
+  async (newVideoId) => {
+    if (!validate(newVideoId)) {
+      /// is a youtube video
+      player.value.loadVideoById(newVideoId)
+    } else {
+      audio.value = await readMusic(newVideoId)
+      setTimeout(() => {
+        audioRef.value.play()
+        startPlaybackTimer()
+      }, 1000)
+      // is local audio
+    }
+
     isPaused.value = false
     playbackTime.value = '0:00' // Reset playback time
   },
@@ -114,14 +132,26 @@ watch(
 )
 
 const pause = () => {
-  isPaused.value = true
-  player.value.pauseVideo()
+  if (audioRef.value) {
+    isPaused.value = true
+    audioRef.value.pause()
+    stopPlaybackTimer()
+  } else {
+    isPaused.value = true
+    player.value.pauseVideo()
+  }
   stopPlaybackTimer()
 }
 
 const play = () => {
-  isPaused.value = false
-  player.value.playVideo()
+  if (audioRef.value) {
+    isPaused.value = false
+    audioRef.value.play()
+    startPlaybackTimer()
+  } else {
+    isPaused.value = false
+    player.value.playVideo()
+  }
   startPlaybackTimer()
 }
 

@@ -69,8 +69,12 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
 import { formatYouTubeDuration } from 'src/utils/functions'
+import { saveMusic } from 'src/utils/file'
+import { v4 } from 'uuid'
+import { useMusicStore } from 'src/stores/Music'
 
 const musicReproductorStore = useMusicReproductor()
+const musicStore = useMusicStore()
 
 const query = ref('')
 const videos = ref([])
@@ -114,21 +118,45 @@ const playAudio = (video) => {
 
 const downloadAudio = (videoId) => {
   downloadingVideoId.value = videoId
-  fetch('http://localhost:4000/download-audio', {
+  const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
+  fetch('http://192.168.1.3:4000/download-audio', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ url: `https://www.youtube.com/watch?v=${videoId}` }),
+    body: JSON.stringify({ url: videoUrl }),
   })
-    .then((response) => response.blob())
-    .then((blob) => {
-      const url = window.URL.createObjectURL(new Blob([blob]))
-      const link = document.createElement('a')
-      link.href
-      link.setAttribute('href', url)
-      link.setAttribute('download', 'audio.mp3')
-      link.click()
+    .then((response) => response.json())
+    .then(async (response) => {
+      const uuid = v4()
+      const videoFromVideos = videos.value.find((video) => video.id.videoId === videoId)
+
+      saveMusic({
+        uuidName: uuid,
+        file: response.audio_base64,
+      })
+      // const video = videos.value.find((video) => video.id.videoId === videoId)
+      const video = {
+        snippet: {
+          title: videoFromVideos.snippet.title,
+          thumbnails: {
+            default: {
+              url: videoFromVideos.snippet.thumbnails.default.url,
+            },
+          },
+        },
+        contentDetails: {
+          duration: videoFromVideos?.contentDetails?.duration,
+        },
+      }
+
+      musicStore.add({
+        uuidName: uuid,
+        title: video.snippet.title,
+        duration: video?.contentDetails?.duration,
+        thumbnail: video.snippet.thumbnails.default.url,
+        createdAt: new Date(),
+      })
     })
     .catch((error) => console.error('🚀 ~ downloadAudio ~ error', error))
     .finally(() => {
