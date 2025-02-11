@@ -128,12 +128,15 @@ onMounted(() => {
   navigator.mediaSession.setActionHandler('nexttrack', () => {
     next()
   })
+
+  audioRef.value.onended = () => {
+    next()
+  }
 })
 
 watch(
   videoId,
   async (newVideoId) => {
-    console.log('🚀 ~ newVideoId:', newVideoId)
     if (!validate(newVideoId)) {
       /// is a youtube video
 
