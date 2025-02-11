@@ -14,18 +14,10 @@
       active-color="primary"
       indicator-color="transparent"
     >
-      <q-route-tab class="q-py-md" name="dashboard" to="/" icon="home">
-        {{ $t('common.home') }}
-      </q-route-tab>
-      <q-route-tab class="q-py-md" name="goals" to="/search" icon="search">
-        {{ $t('common.search') }}
-      </q-route-tab>
-      <q-route-tab class="q-py-md" name="nutrition" to="/music" icon="music_note">
-        {{ $t('common.music') }}
-      </q-route-tab>
-      <q-route-tab class="q-py-md" name="community" to="/settings" icon="settings">
-        {{ $t('common.settings') }}
-      </q-route-tab>
+      <q-route-tab class="q-py-md" name="dashboard" to="/" icon="home"> </q-route-tab>
+      <q-route-tab class="q-py-md" name="goals" to="/search" icon="search"> </q-route-tab>
+      <q-route-tab class="q-py-md" name="nutrition" to="/music" icon="music_note"> </q-route-tab>
+      <q-route-tab class="q-py-md" name="community" to="/settings" icon="settings"> </q-route-tab>
     </q-tabs>
   </q-footer>
 </template>
