@@ -18,6 +18,7 @@ export default {
     searchYoutubeVideos: 'Search YouTube videos',
     noResults: 'No results',
     serverInformation: 'The server is the address of the server that will process the music so that it is available when you are not connected. For example: http://localhost:3000',
+    downloadMusicBackupFileInformation: 'Download a JSON backup file to your phone. This file contains all the information of the music you have downloaded. NO THE MUSIC ITSELF.',
   },
   error: {
     serverNotConfigured: 'Server not configured, go to settings and configure the server',
@@ -25,5 +26,7 @@ export default {
   action: {
     delete: 'Delete',
     save: 'Save',
+    downloadMusicBackupFile: 'Download music backup file',
+    uploadMusicBackupFile: 'Upload music backup file',
   }
 }
