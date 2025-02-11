@@ -17,6 +17,7 @@ const DEFAULT_MUSIC_SRTUCTURE = {
   },
 }
 export const useMusicReproductor = defineStore('musicReproductor', {
+  persist: true,
   state: () => ({
     videoId: '',
     showPlayer: false,
