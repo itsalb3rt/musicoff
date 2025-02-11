@@ -108,6 +108,14 @@ onMounted(() => {
       stopPlaybackTimer()
     }
   })
+
+  navigator.mediaSession.setActionHandler('play', async () => {
+    play()
+  })
+
+  navigator.mediaSession.setActionHandler('pause', () => {
+    pause()
+  })
 })
 
 watch(
