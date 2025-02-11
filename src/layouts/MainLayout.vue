@@ -70,22 +70,40 @@
           {{ playbackTime }} /
           {{ formatYouTubeDuration(musicReproductorStore.current?.contentDetails?.duration) }}
         </div>
-        <q-linear-progress v-if="!isPaused" color="primary" indeterminate class="q-mt-md" />
+        <q-linear-progress color="primary" class="q-mt-md" />
       </q-card-section>
-
       <q-card-section class="row justify-center q-pa-md">
-        <q-btn @click="back" flat round icon="fast_rewind" size="xl" />
+        <q-btn
+          @click="musicReproductorStore.repeat = !musicReproductorStore.repeat"
+          :color="musicReproductorStore.repeat ? 'primary' : 'white'"
+          flat
+          round
+          icon="repeat"
+          size="md"
+        />
+        <q-btn @click="back" flat round icon="fast_rewind" size="lg" />
         <q-btn
           v-if="isPaused"
           @click="play"
           flat
           round
           icon="play_arrow"
-          size="xl"
+          size="lg"
           class="q-mx-md"
         />
-        <q-btn v-else @click="pause" flat round icon="pause" size="xl" class="q-mx-md" />
-        <q-btn @click="next" flat round icon="fast_forward" size="xl" />
+        <q-btn v-else @click="pause" flat round icon="pause" size="lg" class="q-mx-md" />
+        <q-btn @click="next" flat round icon="fast_forward" size="lg" />
+
+        <q-btn
+          style="float: right"
+          :color="musicReproductorStore.random ? 'primary' : 'white'"
+          @click="musicReproductorStore.random = !musicReproductorStore.random"
+          flat
+          dense
+          rounded
+          icon="shuffle"
+          size="md"
+        />
       </q-card-section>
     </q-card>
   </q-dialog>
