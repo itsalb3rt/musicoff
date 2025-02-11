@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="col-4">
-            <q-btn dense disable flat round icon="fast_rewind" />
+            <q-btn dense @click="back" flat round icon="fast_rewind" />
             <q-btn dense v-if="isPaused" @click="play" flat round icon="play_arrow" />
             <q-btn dense v-else @click="pause" flat round icon="pause" />
             <q-btn dense @click="next" flat round icon="fast_forward" />
@@ -135,8 +135,16 @@ watch(
   async (newVideoId) => {
     if (!validate(newVideoId)) {
       /// is a youtube video
+
+      if (audioRef.value) {
+        audioRef.value.pause()
+      }
+
       player.value.loadVideoById(newVideoId)
     } else {
+      if (player.value) {
+        player.value.stopVideo()
+      }
       playLocal(newVideoId)
     }
 
@@ -223,17 +231,55 @@ const next = () => {
     const index = musicStore.downloaded.findIndex(
       (music) => music.uuidName === musicReproductorStore.current.id.videoId,
     )
+    let lastMusic = null
     if (index === musicStore.downloaded.length - 1) {
       const music = musicStore.downloaded[0]
       musicReproductorStore.setVideoId(music.uuidName)
       musicReproductorStore.current = getCurrentMusicStructured(music)
+      lastMusic = getCurrentMusicStructured(music)
     } else {
       const music = musicStore.downloaded[index + 1]
       musicReproductorStore.setVideoId(music.uuidName)
       musicReproductorStore.current = getCurrentMusicStructured(music)
+      lastMusic = getCurrentMusicStructured(music)
     }
+
+    musicReproductorStore.lastMusic = lastMusic
   }
 }
+
+const back = () => {
+  if (musicReproductorStore.random) {
+    if (musicReproductorStore.lastMusic.id.videoId) {
+      musicReproductorStore.setVideoId(musicReproductorStore.lastMusic.id.videoId)
+      musicReproductorStore.current = musicReproductorStore.lastMusic
+    } else {
+      const fistTrack = musicStore.downloaded[0]
+      musicReproductorStore.setVideoId(fistTrack.uuidName)
+      musicReproductorStore.current = getCurrentMusicStructured(fistTrack)
+    }
+  } else {
+    const index = musicStore.downloaded.findIndex(
+      (music) => music.uuidName === musicReproductorStore.current.id.videoId,
+    )
+    let lastMusic = null
+    if (index === 0) {
+      const music = musicStore.downloaded[musicStore.downloaded.length - 1]
+      musicReproductorStore.setVideoId(music.uuidName)
+      musicReproductorStore.current = getCurrentMusicStructured(music)
+      lastMusic = getCurrentMusicStructured(music)
+    } else {
+      const music = musicStore.downloaded[index - 1]
+      musicReproductorStore.setVideoId(music.uuidName)
+      musicReproductorStore.current = getCurrentMusicStructured(music)
+      lastMusic = getCurrentMusicStructured(music)
+    }
+
+    musicReproductorStore.lastMusic = lastMusic
+  }
+}
+
+// READ when the track finish to jump to the next track
 
 // Cleanup on component unmount
 onUnmounted(() => {

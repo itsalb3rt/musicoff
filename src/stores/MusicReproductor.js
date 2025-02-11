@@ -1,17 +1,29 @@
 import { defineStore } from 'pinia'
 
+const DEFAULT_MUSIC_SRTUCTURE = {
+  id: {
+    videoId: '',
+  },
+  snippet: {
+    title: '',
+    thumbnails: {
+      default: {
+        url: '',
+      },
+    },
+  },
+  contentDetails: {
+    duration: '',
+  },
+}
 export const useMusicReproductor = defineStore('musicReproductor', {
   state: () => ({
     videoId: '',
     showPlayer: false,
     random: false,
     repeat: false,
-    current: {
-      title: '',
-      artist: '',
-      album: '',
-      cover: ''
-    }
+    lastMusic: DEFAULT_MUSIC_SRTUCTURE,
+    current: DEFAULT_MUSIC_SRTUCTURE,
   }),
   getters: {},
   actions: {

@@ -59,6 +59,10 @@ const deleteMusic = () => {
 }
 
 const playAudio = () => {
+  if (musicReproductorStore.current.id.videoId) {
+    musicReproductorStore.lastMusic = musicReproductorStore.current
+  }
+
   // reproduce the audio using the videoId
   musicReproductorStore.setVideoId(props.music.uuidName)
   musicReproductorStore.current = getCurrentMusicStructured(props.music)
