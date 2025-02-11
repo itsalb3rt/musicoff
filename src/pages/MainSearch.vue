@@ -24,23 +24,16 @@
       </div>
     </template>
 
-    <q-card flat bordered class="q-my-md" v-for="video in videos" :key="video.id.videoId">
+    <q-card flat class="q-my-md" v-for="video in videos" :key="video.id.videoId">
       <q-card-section>
-        <div class="row q-col-gutter-md">
-          <div class="col-3">
+        <div class="row items-center q-col-gutter-md">
+          <div class="col-3" style="position: relative">
             <q-img :src="video.snippet.thumbnails.default.url" alt="thumbnail" />
-          </div>
-          <div class="col-9">
-            <div>{{ video.snippet.title }}</div>
-            <div caption>{{ video.snippet.channelTitle }}</div>
-            <div caption>{{ formatYouTubeDuration(video?.contentDetails?.duration) }}</div>
-          </div>
-          <div class="col-12">
             <q-btn
+              style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%)"
+              dense
               :color="
-                musicReproductorStore?.current?.id?.videoId === video.id.videoId
-                  ? 'primary'
-                  : 'dark'
+                musicReproductorStore?.current?.id?.videoId === video.id.videoId ? 'primary' : ''
               "
               rounded
               outline
@@ -48,12 +41,21 @@
               @click="playAudio(video)"
               icon="play_arrow"
             />
+          </div>
+          <div class="col-7">
+            <div>{{ video.snippet.title }}</div>
+            <div caption>{{ video.snippet.channelTitle }}</div>
+            <div caption>{{ formatYouTubeDuration(video?.contentDetails?.duration) }}</div>
+          </div>
+          <div class="col-2">
             <q-btn
+              dense
+              :disable="musicStore.isDownloaded(video.id.videoId)"
               :loading="downloadingVideoId === video.id.videoId"
               rounded
               outline
               @click="downloadAudio(video.id.videoId)"
-              icon="download"
+              :icon="musicStore.isDownloaded(video.id.videoId) ? 'check' : 'download'"
             />
           </div>
         </div>
@@ -131,29 +133,16 @@ const downloadAudio = (videoId) => {
       const videoFromVideos = videos.value.find((video) => video.id.videoId === videoId)
 
       saveMusic({
-        uuidName: uuid,
+        uuid: uuid,
         file: response.audio_base64,
       })
-      // const video = videos.value.find((video) => video.id.videoId === videoId)
-      const video = {
-        snippet: {
-          title: videoFromVideos.snippet.title,
-          thumbnails: {
-            default: {
-              url: videoFromVideos.snippet.thumbnails.default.url,
-            },
-          },
-        },
-        contentDetails: {
-          duration: videoFromVideos?.contentDetails?.duration,
-        },
-      }
 
       musicStore.add({
-        uuidName: uuid,
-        title: video.snippet.title,
-        duration: video?.contentDetails?.duration,
-        thumbnail: video.snippet.thumbnails.default.url,
+        uuid: uuid,
+        originId: videoId,
+        title: videoFromVideos.snippet.title,
+        duration: videoFromVideos?.contentDetails?.duration,
+        thumbnail: videoFromVideos.snippet.thumbnails.default.url,
         createdAt: new Date(),
       })
     })

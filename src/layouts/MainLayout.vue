@@ -229,17 +229,17 @@ const next = () => {
     // TODO: Implement random music
   } else {
     const index = musicStore.downloaded.findIndex(
-      (music) => music.uuidName === musicReproductorStore.current.id.videoId,
+      (music) => music.uuid === musicReproductorStore.current.id.videoId,
     )
     let lastMusic = null
     if (index === musicStore.downloaded.length - 1) {
       const music = musicStore.downloaded[0]
-      musicReproductorStore.setVideoId(music.uuidName)
+      musicReproductorStore.setVideoId(music.uuid)
       musicReproductorStore.current = getCurrentMusicStructured(music)
       lastMusic = getCurrentMusicStructured(music)
     } else {
       const music = musicStore.downloaded[index + 1]
-      musicReproductorStore.setVideoId(music.uuidName)
+      musicReproductorStore.setVideoId(music.uuid)
       musicReproductorStore.current = getCurrentMusicStructured(music)
       lastMusic = getCurrentMusicStructured(music)
     }
@@ -255,22 +255,22 @@ const back = () => {
       musicReproductorStore.current = musicReproductorStore.lastMusic
     } else {
       const fistTrack = musicStore.downloaded[0]
-      musicReproductorStore.setVideoId(fistTrack.uuidName)
+      musicReproductorStore.setVideoId(fistTrack.uuid)
       musicReproductorStore.current = getCurrentMusicStructured(fistTrack)
     }
   } else {
     const index = musicStore.downloaded.findIndex(
-      (music) => music.uuidName === musicReproductorStore.current.id.videoId,
+      (music) => music.uuid === musicReproductorStore.current.id.videoId,
     )
     let lastMusic = null
     if (index === 0) {
       const music = musicStore.downloaded[musicStore.downloaded.length - 1]
-      musicReproductorStore.setVideoId(music.uuidName)
+      musicReproductorStore.setVideoId(music.uuid)
       musicReproductorStore.current = getCurrentMusicStructured(music)
       lastMusic = getCurrentMusicStructured(music)
     } else {
       const music = musicStore.downloaded[index - 1]
-      musicReproductorStore.setVideoId(music.uuidName)
+      musicReproductorStore.setVideoId(music.uuid)
       musicReproductorStore.current = getCurrentMusicStructured(music)
       lastMusic = getCurrentMusicStructured(music)
     }

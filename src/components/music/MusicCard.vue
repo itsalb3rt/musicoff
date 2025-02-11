@@ -1,18 +1,25 @@
 <template>
-  <q-card flat bordered class="q-my-md">
+  <q-card flat>
     <q-card-section>
-      <div class="row q-col-gutter-md">
-        <div class="col-3">
+      <div class="row items-center q-col-gutter-md">
+        <div class="col-3" style="position: relative">
           <q-img :src="music.thumbnail" alt="thumbnail" />
+          <q-btn
+            style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%)"
+            dense
+            @click="() => playAudio()"
+            rounded
+            outline
+            class="q-mr-sm"
+            icon="play_arrow"
+          />
         </div>
-        <div class="col-9">
+        <div class="col-8">
           <div>{{ music.title }}</div>
-          <div caption>{{ music.duration }}</div>
           <div caption>{{ formatYouTubeDuration(music.duration) }}</div>
         </div>
-        <div class="col-12">
-          <q-btn @click="() => playAudio()" rounded outline class="q-mr-sm" icon="play_arrow" />
-          <q-btn class="float-right" color="dark" icon="more_vert" flat round>
+        <div class="col-1">
+          <q-btn dense class="float-right" icon="more_vert" flat round>
             <q-menu>
               <q-list style="min-width: 100px">
                 <q-item @click="() => (showDeleteDialog = true)" clickable v-close-popup>
@@ -54,7 +61,7 @@ const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
 
 const deleteMusic = () => {
-  musicStore.remove(props.music.uuidName)
+  musicStore.remove(props.music.uuid)
   showDeleteDialog.value = false
 }
 
@@ -64,7 +71,7 @@ const playAudio = () => {
   }
 
   // reproduce the audio using the videoId
-  musicReproductorStore.setVideoId(props.music.uuidName)
+  musicReproductorStore.setVideoId(props.music.uuid)
   musicReproductorStore.current = getCurrentMusicStructured(props.music)
   musicReproductorStore.setShowPlayer(true)
 }

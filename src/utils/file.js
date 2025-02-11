@@ -1,26 +1,36 @@
 import { Filesystem, Directory } from 'app/src-capacitor/node_modules/@capacitor/filesystem';
 
-export const saveMusic = async ({ uuidName, file }) => {
+export const saveMusic = async ({ uuid, file }) => {
   try {
+    // Ensure the music directory exists
+    await Filesystem.mkdir({
+      path: 'music',
+      directory: Directory.Documents,
+      recursive: true // Ensures parent directories are created if needed
+    }).catch((error) => {
+      // Ignore error if directory already exists
+      if (error.message !== 'Directory already exists') {
+        throw error;
+      }
+    });
 
-    // check if music dir exists
-    const musicDir = await Filesystem.readdir({ path: 'music', directory: Directory.Documents });
+    // Write the file
+    const { uri } = await Filesystem.writeFile({
+      path: `music/${uuid}.txt`,
+      data: file,
+      directory: Directory.Documents
+    });
 
-    if (!musicDir.files.length) {
-      await Filesystem.mkdir({ path: 'music', directory: Directory.Documents, recursive: false });
-    }
-
-    const { uri } = await Filesystem.writeFile({ path: 'music/' + uuidName + '.txt', data: file, directory: Directory.Documents });
     return uri;
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Unable to write file', error);
   }
-}
+};
 
-export const readMusic = async (uuidName) => {
+
+export const readMusic = async (uuid) => {
   try {
-    const { data } = await Filesystem.readFile({ path: 'music/' + uuidName + '.txt', directory: Directory.Documents });
+    const { data } = await Filesystem.readFile({ path: 'music/' + uuid + '.txt', directory: Directory.Documents });
     return data;
   }
   catch (error) {

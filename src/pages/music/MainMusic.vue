@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <p class="text-h5">{{ musicStore.downloadedCount }}</p>
-    <div v-for="music in musicStore.downloaded" :key="music.downloaded">
+    <div class="q-my-sm" v-for="music in musicStore.downloaded" :key="music.downloaded">
       <music-card :music="music" />
     </div>
   </q-page>

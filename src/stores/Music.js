@@ -3,7 +3,18 @@ import { defineStore } from 'pinia'
 export const useMusicStore = defineStore('music', {
   persist: true,
   state: () => ({
-    downloaded: [],
+    downloaded: [
+      /**
+      {
+        uuid
+        originId
+        title
+        duration
+        thumbnail
+        createdAt
+      }
+       */
+    ],
   }),
   getters: {
     downloadedCount() {
@@ -14,8 +25,11 @@ export const useMusicStore = defineStore('music', {
     add(file) {
       this.downloaded.push(file)
     },
+    isDownloaded(originId) {
+      return this.downloaded.some(f => f.originId === originId)
+    },
     remove(uuid) {
-      this.downloaded = this.downloaded.filter(f => f.uuidName !== uuid)
+      this.downloaded = this.downloaded.filter(f => f.uuid !== uuid)
     },
   }
 })

@@ -23,7 +23,8 @@ export const formatYouTubeDuration = (duration) => {
 export const getCurrentMusicStructured = (music) => {
   return {
     id: {
-      videoId: music.uuidName,
+      originId: music.originId,
+      videoId: music.uuid,
     },
     snippet: {
       title: music.title,
