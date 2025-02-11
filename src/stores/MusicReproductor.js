@@ -4,6 +4,8 @@ export const useMusicReproductor = defineStore('musicReproductor', {
   state: () => ({
     videoId: '',
     showPlayer: false,
+    random: false,
+    repeat: false,
     current: {
       title: '',
       artist: '',

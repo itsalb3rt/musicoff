@@ -36,7 +36,7 @@
             <q-btn dense disable flat round icon="fast_rewind" />
             <q-btn dense v-if="isPaused" @click="play" flat round icon="play_arrow" />
             <q-btn dense v-else @click="pause" flat round icon="pause" />
-            <q-btn dense disable flat round icon="fast_forward" />
+            <q-btn dense @click="next" flat round icon="fast_forward" />
           </div>
         </div>
       </q-card-section>
@@ -48,9 +48,12 @@
 import { storeToRefs } from 'pinia'
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import NavBar from 'components/NavBar.vue'
+
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
+import { useMusicStore } from 'src/stores/Music'
+
 import YoutubePlayer from 'youtube-player'
-import { formatYouTubeDuration } from 'src/utils/functions'
+import { formatYouTubeDuration, getCurrentMusicStructured } from 'src/utils/functions'
 import { readMusic } from 'src/utils/file'
 import { validate } from 'uuid'
 
@@ -62,6 +65,7 @@ const audio = ref(null)
 const audioRef = ref(null)
 
 const musicReproductorStore = useMusicReproductor()
+const musicStore = useMusicStore()
 const { videoId } = storeToRefs(musicReproductorStore)
 
 // Function to update playback time
@@ -212,7 +216,24 @@ const play = () => {
   startPlaybackTimer()
 }
 
-// const next = () => {}
+const next = () => {
+  if (musicReproductorStore.random) {
+    // TODO: Implement random music
+  } else {
+    const index = musicStore.downloaded.findIndex(
+      (music) => music.uuidName === musicReproductorStore.current.id.videoId,
+    )
+    if (index === musicStore.downloaded.length - 1) {
+      const music = musicStore.downloaded[0]
+      musicReproductorStore.setVideoId(music.uuidName)
+      musicReproductorStore.current = getCurrentMusicStructured(music)
+    } else {
+      const music = musicStore.downloaded[index + 1]
+      musicReproductorStore.setVideoId(music.uuidName)
+      musicReproductorStore.current = getCurrentMusicStructured(music)
+    }
+  }
+}
 
 // Cleanup on component unmount
 onUnmounted(() => {

@@ -40,7 +40,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { formatYouTubeDuration } from 'src/utils/functions'
+import { formatYouTubeDuration, getCurrentMusicStructured } from 'src/utils/functions'
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
 import { useMusicStore } from 'src/stores/Music'
 
@@ -61,28 +61,7 @@ const deleteMusic = () => {
 const playAudio = () => {
   // reproduce the audio using the videoId
   musicReproductorStore.setVideoId(props.music.uuidName)
-  musicReproductorStore.current = {
-    id: {
-      videoId: props.music.uuidName,
-    },
-    snippet: {
-      title: props.music.title,
-      thumbnails: {
-        default: {
-          url: props.music.thumbnail,
-        },
-      },
-    },
-    contentDetails: {
-      duration: props.music.duration,
-    },
-  }
+  musicReproductorStore.current = getCurrentMusicStructured(props.music)
   musicReproductorStore.setShowPlayer(true)
 }
-
-// uuidName
-// title: video.snippet.title,
-//         duration
-// thumbnail
-// createdAt
 </script>
