@@ -1,8 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container class="top-safe-area" style="max-width: 900px; margin: auto">
-      <router-view />
-      <NavBar />
+      <MainHomePage v-show="currentTab === 'home'" />
+      <MainMusicPage v-show="currentTab === 'music'" />
+      <MainSearchPage v-show="currentTab === 'search'" />
+      <MainSettingsPage v-show="currentTab === 'settings'" />
+      <NavBar @change-tab="handleChangeTab" />
     </q-page-container>
   </q-layout>
   <div id="player"></div>
@@ -122,6 +125,11 @@ import { formatYouTubeDuration, getCurrentMusicStructured } from 'src/utils/func
 import { readMusic } from 'src/utils/file'
 import { validate } from 'uuid'
 
+import MainHomePage from 'src/pages/IndexPage.vue'
+import MainMusicPage from 'src/pages/music/MainMusic.vue'
+import MainSearchPage from 'src/pages/MainSearch.vue'
+import MainSettingsPage from 'src/pages/MainSettings.vue'
+
 const player = ref(null)
 const isPaused = ref(false)
 const playbackTime = ref('0:00') // Store current playback time
@@ -129,10 +137,15 @@ let updateTimeInterval = null // Store interval ID
 const audio = ref(null)
 const audioRef = ref(null)
 const showPlayerOnFullScreen = ref(false)
+const currentTab = ref('home')
 
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
 const { videoId } = storeToRefs(musicReproductorStore)
+
+const handleChangeTab = (tab) => {
+  currentTab.value = tab
+}
 
 const handleShowReproductorOnFullScreen = () => {
   musicReproductorStore.showPlayer = false
