@@ -8,10 +8,13 @@ export default {
     search: 'Search',
     music: 'Music',
     settings: 'Settings',
+    downloadedMusic: 'Downloaded music',
   },
   messages: {
     searchForVideos: 'Search for videos',
     areYouSureYouWantToDelete: 'Are you sure you want to delete?',
+    searchYoutubeVideos: 'Search YouTube videos',
+    noResults: 'No results',
   },
   action: {
     delete: 'Delete',

@@ -1,10 +1,12 @@
 <template>
   <q-page padding>
     <q-input
+      rounded
       outlined
       v-model="query"
-      placeholder="Search YouTube videos"
+      :placeholder="$t('messages.searchYoutubeVideos')"
       @keyup.enter="searchVideos"
+      @blur="searchVideos"
     >
       <template v-slot:prepend>
         <q-icon name="search" />
