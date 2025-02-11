@@ -69,15 +69,21 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useQuasar } from 'quasar'
+import { useI18n } from 'vue-i18n'
 import axios from 'axios'
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
 import { formatYouTubeDuration } from 'src/utils/functions'
 import { saveMusic } from 'src/utils/file'
 import { v4 } from 'uuid'
 import { useMusicStore } from 'src/stores/Music'
+import { useSettingsStore } from 'src/stores/Settings'
 
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
+const settingsStore = useSettingsStore()
+const $q = useQuasar()
+const $t = useI18n().t
 
 const query = ref('')
 const videos = ref([])
@@ -120,9 +126,17 @@ const playAudio = (video) => {
 }
 
 const downloadAudio = (videoId) => {
+  if (!settingsStore.server) {
+    $q.notify({
+      message: $t('error.serverNotConfigured'),
+      color: 'negative',
+    })
+    return
+  }
+
   downloadingVideoId.value = videoId
   const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
-  fetch('http://192.168.1.3:4000/download-audio', {
+  fetch(settingsStore.server, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
