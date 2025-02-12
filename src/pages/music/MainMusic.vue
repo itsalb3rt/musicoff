@@ -35,7 +35,7 @@
     </p>
 
     <div class="q-my-sm" v-for="music in musicFiltered" :key="music.uuid">
-      <music-card @download="downloadAudio" @delete="handleDeleteMusic" :music="music" />
+      <music-card @delete="handleDeleteMusic" :music="music" />
     </div>
 
     <template v-if="musicFiltered.length === 0">
