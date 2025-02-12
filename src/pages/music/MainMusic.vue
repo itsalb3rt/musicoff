@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <p class="text-h5">
+    <p class="text-h3 q-my-lg text-center">
       {{ $t('common.music') }}
     </p>
     <q-input
