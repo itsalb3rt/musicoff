@@ -2,19 +2,18 @@
   <q-card :class="musicReproductorStore.current.id.videoId === music.uuid ? 'bg-primary' : ''" flat>
     <q-card-section>
       <div class="row items-center q-col-gutter-md">
-        <div class="col-3" style="position: relative">
+        <div @click="() => playAudio()" class="col-3" style="position: relative">
           <q-img :src="music.thumbnail" alt="thumbnail" />
           <q-btn
             style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%)"
             dense
-            @click="() => playAudio()"
             rounded
             outline
             class="q-mr-sm"
             icon="play_arrow"
           />
         </div>
-        <div class="col-8">
+        <div class="col-8" @click="() => playAudio()">
           <div>{{ music.title }}</div>
           <div caption>{{ formatYouTubeDuration(music.duration) }}</div>
         </div>
