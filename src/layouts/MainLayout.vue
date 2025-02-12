@@ -11,7 +11,7 @@
   <div id="player"></div>
   <audio ref="audioRef" :src="`data:audio/mp3;base64,${audio}`" autobuffer="autobuffer" />
   <q-dialog seamless v-model="musicReproductorStore.showPlayer" position="bottom">
-    <q-card flat style="width: 350px; margin-bottom: 65px">
+    <q-card flat style="width: 350px; margin-bottom: 64px">
       <q-card-section>
         <div class="row">
           <div class="col-2" @click="handleShowReproductorOnFullScreen">
