@@ -11,6 +11,7 @@ export default {
     downloadedMusic: 'Downloaded music',
     server: 'Server',
     settingsSaved: 'Settings saved',
+    random: 'Random',
   },
   messages: {
     searchForVideos: 'Search for videos',

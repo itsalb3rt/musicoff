@@ -11,6 +11,7 @@ export const useMusicStore = defineStore('music', {
         title
         duration
         thumbnail
+        downloaded // to check if the file is downloaded
         createdAt
       }
        */

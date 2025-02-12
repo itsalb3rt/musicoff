@@ -1,5 +1,8 @@
 <template>
   <q-page padding>
+    <p class="text-h5">
+      {{ $t('common.search') }}
+    </p>
     <q-input
       rounded
       outlined
@@ -14,7 +17,6 @@
       <template v-slot:append>
         <q-btn flat round icon="close" v-if="query" @click="query = ''" />
       </template>
-      <!-- Add button to search for mobile -->
       <template v-slot:after>
         <q-btn :loading="loadingSearch" flat round icon="search" @click="searchVideos" />
       </template>
@@ -159,6 +161,7 @@ const downloadAudio = (videoId) => {
         title: videoFromVideos.snippet.title,
         duration: videoFromVideos?.contentDetails?.duration,
         thumbnail: videoFromVideos.snippet.thumbnails.default.url,
+        downloaded: true,
         createdAt: new Date(),
       })
     })
