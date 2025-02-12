@@ -12,6 +12,8 @@ export default {
     server: 'Server',
     settingsSaved: 'Settings saved',
     random: 'Random',
+    pasteTheBackupFileHere: 'Paste the backup file here',
+    restoreMusicBackupFile: 'Restore music backup file',
   },
   messages: {
     searchForVideos: 'Search for videos',
@@ -21,9 +23,11 @@ export default {
     serverInformation: 'The server is the address of the server that will process the music so that it is available when you are not connected. For example: http://localhost:3000',
     downloadMusicBackupFileInformation: 'Download a JSON backup file to your phone. This file contains all the information of the music you have downloaded. NO THE MUSIC ITSELF.',
     musicBackupFileCopiedToClipboard: 'Music backup file copied to clipboard',
+    musicBackupFileRestored: 'Music backup file restored',
   },
   error: {
     serverNotConfigured: 'Server not configured, go to settings and configure the server',
+    musicBackupFileRestoreError: 'Error restoring music backup file, look like the file is invalid or improperly formatted',
   },
   action: {
     delete: 'Delete',
@@ -31,5 +35,8 @@ export default {
     downloadMusicBackupFile: 'Download music backup file',
     uploadMusicBackupFile: 'Upload music backup file',
     copyTheBackupFileOnTheClipBoard: 'Copy the backup file on the clipboard',
+    openRestoreMusicBackupFile: 'Open restore music backup file',
+    restore: 'Restore',
+    cancel: 'Cancel',
   }
 }

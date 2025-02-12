@@ -21,10 +21,17 @@ export const useMusicStore = defineStore('music', {
     downloadedCount() {
       return this.downloaded.length
     },
+    getDownloaded() {
+      return this.downloaded
+    }
   },
   actions: {
     add(file) {
       this.downloaded.push(file)
+    },
+    // This method is used to set ALL downloaded files, is dangerous to use it
+    setDownloaded(files) {
+      this.downloaded = files
     },
     isDownloaded(originId) {
       return this.downloaded.some(f => f.originId === originId)
