@@ -44,7 +44,7 @@
     </q-card>
   </q-dialog>
 
-  <q-dialog maximized v-model="showPlayerOnFullScreen">
+  <q-dialog persistent maximized v-model="showPlayerOnFullScreen">
     <q-card
       flat
       class="bg-dark text-white"
@@ -75,7 +75,13 @@
           {{ playbackTime }} /
           {{ formatYouTubeDuration(musicReproductorStore.current?.contentDetails?.duration) }}
         </div>
-        <q-linear-progress color="primary" class="q-mt-md" />
+        <q-slider
+          v-if="validate(musicReproductorStore.current.id.videoId)"
+          @update:model-value="handleTimePositionChange"
+          v-model="currentTime"
+          :min="0"
+          :max="audioRef.duration"
+        />
       </q-card-section>
       <q-card-section class="row justify-center q-pa-md">
         <q-btn @click="back" flat round icon="fast_rewind" size="lg" />
@@ -142,6 +148,7 @@ const audio = ref(null)
 const audioRef = ref(null)
 const showPlayerOnFullScreen = ref(false)
 const currentTab = ref('home')
+const currentTime = ref(0)
 
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
@@ -161,13 +168,23 @@ const handleHideReproductorOnFullScreen = () => {
   musicReproductorStore.showPlayer = true
 }
 
+const handleTimePositionChange = () => {
+  if (validate(musicReproductorStore.current.id.videoId)) {
+    audioRef.value.currentTime = currentTime.value
+  }
+}
+
 // Function to update playback time
 const updatePlaybackTime = async () => {
   if (!player.value) return
-  const currentTime = validate(musicReproductorStore.current.id.videoId)
+  const audioCurrentTime = validate(musicReproductorStore.current.id.videoId)
     ? audioRef.value.currentTime
     : await player.value.getCurrentTime()
-  playbackTime.value = formatTime(currentTime)
+  playbackTime.value = formatTime(audioCurrentTime)
+
+  if (validate(musicReproductorStore.current.id.videoId)) {
+    currentTime.value = audioCurrentTime
+  }
 }
 
 // Function to format seconds to MM:SS
