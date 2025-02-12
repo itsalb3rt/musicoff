@@ -12,6 +12,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build",
+    "build:ios": "quasar build -m capacitor -T ios --ide",
     "postinstall": "quasar prepare"
   },
   "dependencies": {
