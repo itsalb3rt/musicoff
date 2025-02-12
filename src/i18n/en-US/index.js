@@ -14,6 +14,8 @@ export default {
     random: 'Random',
     pasteTheBackupFileHere: 'Paste the backup file here',
     restoreMusicBackupFile: 'Restore music backup file',
+    nonDownloadedMusic: 'Non downloaded music',
+    downloading: 'Downloading',
   },
   messages: {
     searchForVideos: 'Search for videos',
@@ -24,6 +26,7 @@ export default {
     downloadMusicBackupFileInformation: 'Download a JSON backup file to your phone. This file contains all the information of the music you have downloaded. NO THE MUSIC ITSELF.',
     musicBackupFileCopiedToClipboard: 'Music backup file copied to clipboard',
     musicBackupFileRestored: 'Music backup file restored',
+    allDownloaded: 'All downloaded',
   },
   error: {
     serverNotConfigured: 'Server not configured, go to settings and configure the server',
@@ -38,5 +41,6 @@ export default {
     openRestoreMusicBackupFile: 'Open restore music backup file',
     restore: 'Restore',
     cancel: 'Cancel',
+    downloadAll: 'Download all',
   }
 }

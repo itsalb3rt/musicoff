@@ -23,6 +23,9 @@ export const useMusicStore = defineStore('music', {
     },
     getDownloaded() {
       return this.downloaded
+    },
+    someNonDownloaded() {
+      return this.downloaded.some(f => !f.downloaded)
     }
   },
   actions: {
