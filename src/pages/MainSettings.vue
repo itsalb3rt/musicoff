@@ -69,6 +69,9 @@
           </q-card>
         </q-dialog>
       </div>
+      <div class="col-12">
+        <q-separator />
+      </div>
       <div class="col-12 text-center">
         <q-btn icon="save" color="primary" rounded :label="$t('action.save')" @click="handleSave" />
       </div>
