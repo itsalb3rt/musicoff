@@ -19,6 +19,10 @@ export default {
     title: 'Title',
     artist: 'Artist',
     album: 'Album',
+    oldToNew: 'Old to new',
+    newToOld: 'New to old',
+    titleAZ: 'Title A-Z',
+    titleZA: 'Title Z-A',
   },
   messages: {
     searchForVideos: 'Search for videos',

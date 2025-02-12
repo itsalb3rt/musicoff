@@ -14,6 +14,54 @@
       <template v-slot:prepend>
         <q-icon name="search" />
       </template>
+      <template v-slot:after>
+        <q-btn flat round icon="sort">
+          <q-menu class="no-shadow">
+            <q-list style="min-width: 150px">
+              <q-item
+                :class="musicStore.sortBy === 'newToOld' ? 'bg-primary text-white' : ''"
+                @click="() => handleSetSort('newToOld')"
+                clickable
+                v-close-popup
+              >
+                <q-item-section>
+                  {{ $t('common.newToOld') }}
+                </q-item-section>
+              </q-item>
+              <q-item
+                :class="musicStore.sortBy === 'oldToNew' ? 'bg-primary text-white' : ''"
+                @click="() => handleSetSort('oldToNew')"
+                clickable
+                v-close-popup
+              >
+                <q-item-section>
+                  {{ $t('common.oldToNew') }}
+                </q-item-section>
+              </q-item>
+              <q-item
+                :class="musicStore.sortBy === 'titleAZ' ? 'bg-primary text-white' : ''"
+                @click="() => handleSetSort('titleAZ')"
+                clickable
+                v-close-popup
+              >
+                <q-item-section>
+                  {{ $t('common.titleAZ') }}
+                </q-item-section>
+              </q-item>
+              <q-item
+                :class="musicStore.sortBy === 'titleZA' ? 'bg-primary text-white' : ''"
+                @click="() => handleSetSort('titleZA')"
+                clickable
+                v-close-popup
+              >
+                <q-item-section>
+                  {{ $t('common.titleZA') }}
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+      </template>
     </q-input>
 
     <div class="text-center" v-if="musicStore.someNonDownloaded">
@@ -84,11 +132,16 @@ const search = () => {
   )
 }
 
+const handleSetSort = (value) => {
+  musicStore.sortBy = value
+  musicFiltered.value = musicStore.getDownloaded
+}
+
 const handleDeleteMusic = () => {
   musicFiltered.value = musicStore.getDownloaded
 }
 
-const downloadAudio = (videoId) => {
+const downloadAudio = async (videoId) => {
   if (!settingsStore.server) {
     $q.notify({
       message: $t('error.serverNotConfigured'),

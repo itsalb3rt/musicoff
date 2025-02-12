@@ -18,13 +18,28 @@ export const useMusicStore = defineStore('music', {
       }
        */
     ],
+    sortBy: 'newToOld' // newToOld, oldToNew, titleAZ, titleZA
   }),
   getters: {
     downloadedCount() {
       return this.downloaded.length
     },
     getDownloaded() {
-      return this.downloaded.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      let ordered = this.downloaded
+
+      if (this.sortBy === 'newToOld') {
+        ordered = this.downloaded.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      } else if (this.sortBy === 'oldToNew') {
+        ordered = this.downloaded.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      } else if (this.sortBy === 'titleAZ') {
+        ordered = this.downloaded.sort((a, b) => a.title.localeCompare(b.title));
+      } else if (this.sortBy === 'titleZA') {
+        ordered = this.downloaded.sort((a, b) => b.title.localeCompare(a.title));
+      }
+
+      return ordered
+
+      // return this.downloaded.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     },
     someNonDownloaded() {
       return this.downloaded.some(f => !f.downloaded)
