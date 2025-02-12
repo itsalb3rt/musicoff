@@ -372,6 +372,7 @@ const next = () => {
 
     musicReproductorStore.lastMusic = lastMusic
   }
+  isPaused.value = false
 }
 
 const back = () => {
@@ -403,6 +404,7 @@ const back = () => {
 
     musicReproductorStore.lastMusic = lastMusic
   }
+  isPaused.value = false
 }
 
 // READ when the track finish to jump to the next track
