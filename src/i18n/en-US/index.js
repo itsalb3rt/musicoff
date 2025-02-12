@@ -31,6 +31,7 @@ export default {
   error: {
     serverNotConfigured: 'Server not configured, go to settings and configure the server',
     musicBackupFileRestoreError: 'Error restoring music backup file, look like the file is invalid or improperly formatted',
+    downloadErrorPleaseTryAgain: 'Download error, please try again',
   },
   action: {
     delete: 'Delete',

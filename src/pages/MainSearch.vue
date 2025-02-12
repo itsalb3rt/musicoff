@@ -150,22 +150,36 @@ const downloadAudio = (videoId) => {
       const uuid = v4()
       const videoFromVideos = videos.value.find((video) => video.id.videoId === videoId)
 
-      saveMusic({
-        uuid: uuid,
-        file: response.audio_base64,
-      })
+      try {
+        saveMusic({
+          uuid: uuid,
+          file: response.audio_base64,
+        })
 
-      musicStore.add({
-        uuid: uuid,
-        originId: videoId,
-        title: videoFromVideos.snippet.title,
-        duration: videoFromVideos?.contentDetails?.duration,
-        thumbnail: videoFromVideos.snippet.thumbnails.default.url,
-        downloaded: true,
-        createdAt: new Date(),
+        musicStore.add({
+          uuid: uuid,
+          originId: videoId,
+          title: videoFromVideos.snippet.title,
+          duration: videoFromVideos?.contentDetails?.duration,
+          thumbnail: videoFromVideos.snippet.thumbnails.default.url,
+          downloaded: true,
+          createdAt: new Date(),
+        })
+      } catch (error) {
+        console.error('🚀 ~ downloadAudio ~ error', error)
+        $q.notify({
+          message: $t('error.downloadErrorPleaseTryAgain'),
+          color: 'negative',
+        })
+      }
+    })
+    .catch((error) => {
+      console.error('🚀 ~ downloadAudio ~ error', error)
+      $q.notify({
+        message: $t('error.downloadErrorPleaseTryAgain'),
+        color: 'negative',
       })
     })
-    .catch((error) => console.error('🚀 ~ downloadAudio ~ error', error))
     .finally(() => {
       downloadingVideoId.value = ''
     })
