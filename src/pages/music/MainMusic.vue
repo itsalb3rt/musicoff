@@ -19,16 +19,6 @@
       {{ musicFiltered.length }} {{ $t('common.downloadedMusic') }}
     </p>
 
-    <div class="text-center q-mb-md" v-if="musicStore.downloaded.length > 0">
-      <q-btn
-        rounded
-        icon="shuffle"
-        color="primary"
-        :label="$t('common.random')"
-        @click="musicFiltered.value = musicStore.downloaded"
-      />
-    </div>
-
     <div class="q-my-sm" v-for="music in musicFiltered" :key="music.uuid">
       <music-card :music="music" />
     </div>
