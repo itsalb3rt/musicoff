@@ -334,6 +334,8 @@ const playLocal = async (uuid) => {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: musicReproductorStore.current.snippet.title,
+        album: musicReproductorStore.current.snippet.album,
+        artist: musicReproductorStore.current.snippet.artist,
         artwork: [
           {
             src: musicReproductorStore.current.snippet.thumbnails.default.url,
