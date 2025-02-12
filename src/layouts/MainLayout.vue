@@ -11,9 +11,7 @@
   <div id="player"></div>
   <audio ref="audioRef" :src="`data:audio/mp3;base64,${audio}`" autobuffer="autobuffer" />
   <q-dialog seamless v-model="musicReproductorStore.showPlayer" position="bottom">
-    <q-card style="width: 350px; margin-bottom: 80px">
-      <q-linear-progress v-if="!isPaused" color="primary" indeterminate />
-
+    <q-card flat style="width: 350px; margin-bottom: 65px">
       <q-card-section>
         <div class="row">
           <div class="col-2" @click="handleShowReproductorOnFullScreen">
@@ -47,7 +45,11 @@
   </q-dialog>
 
   <q-dialog maximized v-model="showPlayerOnFullScreen">
-    <q-card class="bg-dark text-white" style="height: 100vh; display: flex; flex-direction: column">
+    <q-card
+      flat
+      class="bg-dark text-white"
+      style="height: 100vh; display: flex; flex-direction: column"
+    >
       <q-card-section class="row justify-between items-center q-pa-md">
         <q-btn flat round dense icon="arrow_back" @click="handleHideReproductorOnFullScreen" />
       </q-card-section>
