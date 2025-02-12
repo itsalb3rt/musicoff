@@ -20,7 +20,7 @@
     </p>
 
     <div class="q-my-sm" v-for="music in musicFiltered" :key="music.uuid">
-      <music-card :music="music" />
+      <music-card @delete="handleDeleteMusic" :music="music" />
     </div>
 
     <template v-if="musicFiltered.length === 0">
@@ -37,12 +37,16 @@ import { useMusicStore } from 'src/stores/Music'
 import MusicCard from 'components/music/MusicCard.vue'
 
 const musicStore = useMusicStore()
-const musicFiltered = ref(musicStore.downloaded)
+const musicFiltered = ref(musicStore.getDownloaded)
 const query = ref('')
 
 const search = () => {
-  musicFiltered.value = musicStore.downloaded.filter((music) =>
+  musicFiltered.value = musicStore.getDownloaded.filter((music) =>
     music.title.toLowerCase().includes(query.value.toLowerCase()),
   )
+}
+
+const handleDeleteMusic = () => {
+  musicFiltered.value = musicStore.getDownloaded
 }
 </script>

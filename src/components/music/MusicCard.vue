@@ -55,6 +55,8 @@ const props = defineProps({
   music: Object,
 })
 
+const emit = defineEmits(['delete'])
+
 const showDeleteDialog = ref(false)
 
 const musicReproductorStore = useMusicReproductor()
@@ -63,6 +65,7 @@ const musicStore = useMusicStore()
 const deleteMusic = () => {
   musicStore.remove(props.music.uuid)
   showDeleteDialog.value = false
+  emit('delete', props.music.uuid)
 }
 
 const playAudio = () => {
