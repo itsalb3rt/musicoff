@@ -76,6 +76,21 @@
         <q-linear-progress color="primary" class="q-mt-md" />
       </q-card-section>
       <q-card-section class="row justify-center q-pa-md">
+        <q-btn @click="back" flat round icon="fast_rewind" size="lg" />
+
+        <q-btn
+          @click="isPaused ? play() : pause()"
+          size="40px"
+          dense
+          color="primary"
+          round
+          :icon="isPaused ? 'play_arrow' : 'pause'"
+          class="q-mx-md"
+        />
+
+        <q-btn @click="next" flat round icon="fast_forward" size="lg" />
+      </q-card-section>
+      <q-card-section class="row justify-center q-pa-md">
         <q-btn
           @click="musicReproductorStore.repeat = !musicReproductorStore.repeat"
           :color="musicReproductorStore.repeat ? 'primary' : 'white'"
@@ -84,19 +99,6 @@
           icon="repeat"
           size="md"
         />
-        <q-btn @click="back" flat round icon="fast_rewind" size="lg" />
-        <q-btn
-          v-if="isPaused"
-          @click="play"
-          flat
-          round
-          icon="play_arrow"
-          size="lg"
-          class="q-mx-md"
-        />
-        <q-btn v-else @click="pause" flat round icon="pause" size="lg" class="q-mx-md" />
-        <q-btn @click="next" flat round icon="fast_forward" size="lg" />
-
         <q-btn
           style="float: right"
           :color="musicReproductorStore.random ? 'primary' : 'white'"
