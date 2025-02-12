@@ -9,6 +9,8 @@ export const useMusicStore = defineStore('music', {
         uuid
         originId
         title
+        artist
+        album
         duration
         thumbnail
         downloaded // to check if the file is downloaded

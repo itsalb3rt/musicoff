@@ -52,6 +52,15 @@
     >
       <q-card-section class="row justify-between items-center q-pa-md">
         <q-btn flat round dense icon="arrow_back" @click="handleHideReproductorOnFullScreen" />
+        <q-space />
+        <q-btn
+          v-if="validate(musicReproductorStore.current.id.videoId)"
+          flat
+          round
+          dense
+          icon="edit"
+          @click="handleEditCurrentMusic"
+        />
       </q-card-section>
       <q-card-section>
         <div class="text-h6 text-center">
@@ -120,6 +129,16 @@
       </q-card-section>
     </q-card>
   </q-dialog>
+  <q-dialog v-model="showEditMusic" maximized persistent>
+    <q-card flat>
+      <q-card-section class="row justify-between items-center q-pa-md">
+        <q-btn flat round dense icon="arrow_back" @click="showEditMusic = false" />
+      </q-card-section>
+      <q-card-section>
+        <EditForm @submit="handleMusicEditSubmit" :music="currentMusicToEdit" />
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup>
@@ -139,6 +158,7 @@ import MainHomePage from 'src/pages/IndexPage.vue'
 import MainMusicPage from 'src/pages/music/MainMusic.vue'
 import MainSearchPage from 'src/pages/MainSearch.vue'
 import MainSettingsPage from 'src/pages/MainSettings.vue'
+import EditForm from 'components/music/EditForm.vue'
 
 const player = ref(null)
 const isPaused = ref(false)
@@ -149,6 +169,8 @@ const audioRef = ref(null)
 const showPlayerOnFullScreen = ref(false)
 const currentTab = ref('home')
 const currentTime = ref(0)
+const currentMusicToEdit = ref({})
+const showEditMusic = ref(false)
 
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
@@ -203,6 +225,27 @@ const startPlaybackTimer = () => {
 // Function to stop updating playback time
 const stopPlaybackTimer = () => {
   clearInterval(updateTimeInterval)
+}
+
+const handleEditCurrentMusic = () => {
+  const music = musicStore.downloaded.find(
+    (music) => music.uuid === musicReproductorStore.current.id.videoId,
+  )
+  currentMusicToEdit.value = music
+  showEditMusic.value = true
+}
+
+const handleMusicEditSubmit = (music) => {
+  const index = musicStore.downloaded.findIndex((m) => m.uuid === music.uuid)
+  musicStore.downloaded[index] = {
+    ...musicStore.downloaded[index],
+    title: music.title,
+    artist: music.artist,
+    album: music.album,
+  }
+  // update current music
+  musicReproductorStore.current = getCurrentMusicStructured(music)
+  showEditMusic.value = false
 }
 
 onMounted(() => {

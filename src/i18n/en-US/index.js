@@ -16,6 +16,9 @@ export default {
     restoreMusicBackupFile: 'Restore music backup file',
     nonDownloadedMusic: 'Your library have no downloaded music, click on "Download all" to download all music',
     downloading: 'Downloading',
+    title: 'Title',
+    artist: 'Artist',
+    album: 'Album',
   },
   messages: {
     searchForVideos: 'Search for videos',
