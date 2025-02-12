@@ -37,6 +37,8 @@
     <div class="q-my-sm" v-for="music in musicFiltered" :key="music.uuid">
       <music-card @delete="handleDeleteMusic" :music="music" />
     </div>
+    <!-- To avoid hide the last track -->
+    <div style="height: 100px" />
 
     <template v-if="musicFiltered.length === 0">
       <p class="text-center text-grey">

@@ -14,7 +14,7 @@ export default {
     random: 'Random',
     pasteTheBackupFileHere: 'Paste the backup file here',
     restoreMusicBackupFile: 'Restore music backup file',
-    nonDownloadedMusic: 'Non downloaded music',
+    nonDownloadedMusic: 'Your library have no downloaded music, click on "Download all" to download all music',
     downloading: 'Downloading',
   },
   messages: {
