@@ -30,6 +30,11 @@
     tslib "^2.4.0"
     xml2js "^0.5.0"
 
+"@capacitor/clipboard@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/clipboard/-/clipboard-7.0.0.tgz#2a243d5691fbb2437baa302bbd235fba2c9a3d9c"
+  integrity sha512-vASrjIbQq8XsvR3dRuaoDqcltH1S0ZeS/ARVYdQzyVDZLPN+FGYfOCtTRPaOOIw0KJiLRDqwhawJvx15NAEREA==
+
 "@capacitor/core@^6.0.0":
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-6.2.0.tgz#b12b4e451b221972e2a41aa6fd1b7678e611e74d"

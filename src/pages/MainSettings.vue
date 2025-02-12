@@ -15,14 +15,13 @@
       </div>
       <div class="col-12">
         <q-btn
-          disable
           :loading="creatingBackup"
           @click="downloadMusicBackupFile"
           icon="cloud_download"
           rounded
           color="white"
           text-color="black"
-          :label="$t('action.downloadMusicBackupFile')"
+          :label="$t('action.copyTheBackupFileOnTheClipBoard')"
         />
         <p class="text-caption text-grey">
           {{ $t('messages.downloadMusicBackupFileInformation') }}
@@ -41,6 +40,7 @@ import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from 'src/stores/Settings'
 import { useMusicStore } from 'src/stores/Music'
+import { Clipboard } from 'app/src-capacitor/node_modules/@capacitor/clipboard'
 
 const $q = useQuasar()
 const $t = useI18n().t
@@ -49,40 +49,28 @@ const musicStore = useMusicStore()
 const server = ref(settingsStore.server)
 const creatingBackup = ref(false)
 
-const downloadMusicBackupFile = () => {
+const downloadMusicBackupFile = async () => {
   creatingBackup.value = true
 
-  const data = musicStore.music
-  const filename = `music-backup-${new Date().toISOString().split('T')[0]}.json`
-  // Convert array to JSON string
-  const jsonString = JSON.stringify(data, null, 2)
+  const data = musicStore.downloaded.map((music) => {
+    return {
+      ...music,
+      downloaded: false,
+    }
+  })
 
-  // Create a Blob with JSON content
-  const blob = new Blob([jsonString], { type: 'application/json' })
-
-  // Check for Safari compatibility
-  if (window.navigator.msSaveBlob) {
-    // For IE & Edge
-    window.navigator.msSaveBlob(blob, filename)
-  } else {
-    // Create a temporary anchor element
-    const a = document.createElement('a')
-    const url = URL.createObjectURL(blob)
-
-    a.href = url
-    a.download = filename
-    document.body.appendChild(a)
-    a.click()
-
-    // Cleanup: revoke the object URL
-    setTimeout(() => {
-      URL.revokeObjectURL(url)
-      document.body.removeChild(a)
-    }, 100)
-  }
+  await Clipboard.write({
+    string: JSON.stringify(data),
+  })
 
   setTimeout(() => {
     creatingBackup.value = false
+
+    $q.notify({
+      message: $t('messages.musicBackupFileCopiedToClipboard'),
+      color: 'positive',
+      position: 'bottom',
+    })
   }, 1000)
 }
 
