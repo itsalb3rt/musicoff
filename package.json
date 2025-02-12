@@ -11,6 +11,7 @@
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
+    "dev:ios": "quasar dev -m capacitor -T ios",
     "build": "quasar build",
     "build:ios": "quasar build -m capacitor -T ios --ide",
     "postinstall": "quasar prepare"
