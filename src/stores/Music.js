@@ -22,7 +22,7 @@ export const useMusicStore = defineStore('music', {
       return this.downloaded.length
     },
     getDownloaded() {
-      return this.downloaded
+      return this.downloaded.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     },
     someNonDownloaded() {
       return this.downloaded.some(f => !f.downloaded)
