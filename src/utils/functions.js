@@ -28,6 +28,8 @@ export const getCurrentMusicStructured = (music) => {
     },
     snippet: {
       title: music.title,
+      artist: music.artist || undefined,
+      album: music.album || undefined,
       thumbnails: {
         default: {
           url: music.thumbnail,

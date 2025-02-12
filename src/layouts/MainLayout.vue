@@ -66,6 +66,12 @@
         <div class="text-h6 text-center">
           {{ musicReproductorStore.current.snippet.title }}
         </div>
+        <div class="text-center text-caption text-grey-8">
+          {{ musicReproductorStore.current.snippet.artist }}
+        </div>
+        <div class="text-center text-caption text-grey-8">
+          {{ musicReproductorStore.current.snippet.album }}
+        </div>
       </q-card-section>
 
       <q-card-section class="flex flex-center" style="flex-grow: 1">
