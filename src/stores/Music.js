@@ -27,7 +27,7 @@ export const useMusicStore = defineStore('music', {
       return this.downloaded.length
     },
     getDownloaded() {
-      let ordered = this.downloaded
+      let ordered = [...this.downloaded]
 
       if (this.sortBy === 'newToOld') {
         ordered = this.downloaded.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -45,8 +45,8 @@ export const useMusicStore = defineStore('music', {
       return this.downloaded.some(f => !f.downloaded)
     },
     getTop10() {
-      const ordered = this.downloaded.sort((a, b) => (b.playTimes || 0) - (a.playTimes || 0))
-      return ordered.slice(0, 10)
+      const ordered = [...this.downloaded]
+      return ordered.sort((a, b) => (b.playTimes || 0) - (a.playTimes || 0)).slice(0, 10)
     }
   },
   actions: {
