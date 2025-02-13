@@ -20,7 +20,7 @@
             v-if="showPlayTimes"
             :class="`text-caption ${musicReproductorStore.current.id.videoId === music.uuid ? 'text-white' : 'text-grey-8'}`"
           >
-            {{ $t('common.playTimes') }}: {{ formatNumber(music.playTimes) || 0 }}
+            {{ $t('common.playTimes') }}: {{ music.playTimes ? formatNumber(music.playTimes) : 0 }}
           </div>
         </div>
         <div v-if="showOptions" class="col-1">
