@@ -53,6 +53,8 @@
         <div class="q-my-sm" v-for="music in top10" :key="music.uuid">
           <music-card :show-options="false" :show-play-times="true" :music="music" />
         </div>
+        <!-- To avoid hide the last track -->
+        <div style="height: 100px" />
       </div>
     </div>
   </q-page>
