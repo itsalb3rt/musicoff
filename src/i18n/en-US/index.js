@@ -23,6 +23,8 @@ export default {
     newToOld: 'New to old',
     titleAZ: 'Title A-Z',
     titleZA: 'Title Z-A',
+    myTop10: 'My top 10',
+    playTimes: 'Play times',
   },
   messages: {
     searchForVideos: 'Search for videos',
@@ -34,6 +36,7 @@ export default {
     musicBackupFileCopiedToClipboard: 'Music backup file copied to clipboard',
     musicBackupFileRestored: 'Music backup file restored',
     allDownloaded: 'All downloaded',
+    playTimesDescription: 'The play counter is based on the number of times the song has been played in its entirety.'
   },
   error: {
     serverNotConfigured: 'Server not configured, go to settings and configure the server',
