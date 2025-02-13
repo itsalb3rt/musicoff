@@ -14,6 +14,7 @@ export const useMusicStore = defineStore('music', {
         duration
         thumbnail
         downloaded // to check if the file is downloaded
+        playTimes
         createdAt
       }
        */
@@ -43,6 +44,12 @@ export const useMusicStore = defineStore('music', {
     },
     someNonDownloaded() {
       return this.downloaded.some(f => !f.downloaded)
+    },
+    getTop10() {
+      // ORDER By the most played
+      return this.downloaded
+        .sort((a, b) => b.playTimes - a.playTimes)
+        .slice(0, 10)
     }
   },
   actions: {
