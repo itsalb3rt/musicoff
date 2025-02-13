@@ -255,6 +255,7 @@ const handleMusicEditSubmit = (music) => {
 }
 
 onMounted(() => {
+  musicReproductorStore.showPlayer = false
   player.value = YoutubePlayer('player', {
     height: '0',
     width: '0',
@@ -296,6 +297,14 @@ onMounted(() => {
         player.value.playVideo()
       }
     } else {
+      const index = musicStore.downloaded.findIndex(
+        (music) => music.uuid === musicReproductorStore.current.id.videoId,
+      )
+      if (musicStore.downloaded[index].playTimes) {
+        musicStore.downloaded[index].playTimes++
+      } else {
+        musicStore.downloaded[index].playTimes = 1
+      }
       next()
     }
   }
