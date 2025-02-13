@@ -16,8 +16,14 @@
         <div class="col-8" @click="() => playAudio()">
           <div>{{ music.title }}</div>
           <div caption>{{ formatYouTubeDuration(music.duration) }}</div>
+          <div
+            v-if="showPlayTimes"
+            :class="`text-caption ${musicReproductorStore.current.id.videoId === music.uuid ? 'text-white' : 'text-grey-8'}`"
+          >
+            {{ $t('common.playTimes') }}: {{ formatNumber(music.playTimes) || 0 }}
+          </div>
         </div>
-        <div class="col-1">
+        <div v-if="showOptions" class="col-1">
           <q-btn dense class="float-right" icon="more_vert" flat round>
             <q-menu>
               <q-list style="min-width: 100px">
@@ -46,12 +52,17 @@
 
 <script setup>
 import { ref } from 'vue'
-import { formatYouTubeDuration, getCurrentMusicStructured } from 'src/utils/functions'
+import { formatYouTubeDuration, getCurrentMusicStructured, formatNumber } from 'src/utils/functions'
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
 import { useMusicStore } from 'src/stores/Music'
 
 const props = defineProps({
   music: Object,
+  showPlayTimes: Boolean,
+  showOptions: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 const emit = defineEmits(['delete'])
@@ -60,7 +71,7 @@ const showDeleteDialog = ref(false)
 
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
-
+console.log(musicStore.getTop10)
 const deleteMusic = () => {
   musicStore.remove(props.music.uuid)
   showDeleteDialog.value = false
