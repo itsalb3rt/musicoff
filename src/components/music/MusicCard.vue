@@ -65,13 +65,12 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['delete'])
+const emit = defineEmits(['delete', 'play'])
 
 const showDeleteDialog = ref(false)
 
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
-console.log(musicStore.getTop10)
 const deleteMusic = () => {
   musicStore.remove(props.music.uuid)
   showDeleteDialog.value = false
@@ -79,6 +78,7 @@ const deleteMusic = () => {
 }
 
 const playAudio = () => {
+  // Track the last music played
   if (musicReproductorStore.current.id.videoId) {
     musicReproductorStore.lastMusic = musicReproductorStore.current
   }
@@ -87,5 +87,6 @@ const playAudio = () => {
   musicReproductorStore.setVideoId(props.music.uuid)
   musicReproductorStore.current = getCurrentMusicStructured(props.music)
   musicReproductorStore.setShowPlayer(true)
+  emit('play')
 }
 </script>

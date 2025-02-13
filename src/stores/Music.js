@@ -19,6 +19,7 @@ export const useMusicStore = defineStore('music', {
       }
        */
     ],
+    currentPlayList: [], // This is the current playlist in the player to use all the logic over it
     sortBy: 'newToOld' // newToOld, oldToNew, titleAZ, titleZA
   }),
   getters: {
@@ -39,17 +40,13 @@ export const useMusicStore = defineStore('music', {
       }
 
       return ordered
-
-      // return this.downloaded.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     },
     someNonDownloaded() {
       return this.downloaded.some(f => !f.downloaded)
     },
     getTop10() {
-      // ORDER By the most played
-      return this.downloaded
-        .sort((a, b) => b.playTimes - a.playTimes)
-        .slice(0, 10)
+      const ordered = this.downloaded.sort((a, b) => (b.playTimes || 0) - (a.playTimes || 0))
+      return ordered.slice(0, 10)
     }
   },
   actions: {

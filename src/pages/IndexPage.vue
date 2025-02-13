@@ -51,7 +51,12 @@
       </div>
       <div class="col-12">
         <div class="q-my-sm" v-for="music in top10" :key="music.uuid">
-          <music-card :show-options="false" :show-play-times="true" :music="music" />
+          <music-card
+            @play="handlePlayTop10"
+            :show-options="false"
+            :show-play-times="true"
+            :music="music"
+          />
         </div>
         <!-- To avoid hide the last track -->
         <div style="height: 100px" />
@@ -76,4 +81,8 @@ watch(tab, () => {
     top10.value = musicStore.getTop10
   }
 })
+
+const handlePlayTop10 = () => {
+  musicStore.currentPlayList = musicStore.getTop10
+}
 </script>

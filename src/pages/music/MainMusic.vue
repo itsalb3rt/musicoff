@@ -83,7 +83,7 @@
     </p>
 
     <div class="q-my-sm" v-for="music in musicFiltered" :key="music.uuid">
-      <music-card @delete="handleDeleteMusic" :music="music" />
+      <music-card @play="handlePlay" @delete="handleDeleteMusic" :music="music" />
     </div>
     <!-- To avoid hide the last track -->
     <div style="height: 100px" />
@@ -196,5 +196,9 @@ const handleDownloadAll = async () => {
   })
 
   showLoadingDownloadAllDialog.value = false
+}
+
+const handlePlay = () => {
+  musicStore.currentPlayList = musicStore.downloaded
 }
 </script>

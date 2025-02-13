@@ -408,23 +408,23 @@ const play = () => {
 
 const next = () => {
   if (musicReproductorStore.random) {
-    const randomIndex = Math.floor(Math.random() * musicStore.downloaded.length)
-    const music = musicStore.downloaded[randomIndex]
+    const randomIndex = Math.floor(Math.random() * musicStore.currentPlayList.length)
+    const music = musicStore.currentPlayList[randomIndex]
     musicReproductorStore.setVideoId(music.uuid)
     musicReproductorStore.current = getCurrentMusicStructured(music)
     musicReproductorStore.lastMusic = getCurrentMusicStructured(music)
   } else {
-    const index = musicStore.downloaded.findIndex(
+    const index = musicStore.currentPlayList.findIndex(
       (music) => music.uuid === musicReproductorStore.current.id.videoId,
     )
     let lastMusic = null
-    if (index === musicStore.downloaded.length - 1) {
-      const music = musicStore.downloaded[0]
+    if (index === musicStore.currentPlayList.length - 1) {
+      const music = musicStore.currentPlayList[0]
       musicReproductorStore.setVideoId(music.uuid)
       musicReproductorStore.current = getCurrentMusicStructured(music)
       lastMusic = getCurrentMusicStructured(music)
     } else {
-      const music = musicStore.downloaded[index + 1]
+      const music = musicStore.currentPlayList[index + 1]
       musicReproductorStore.setVideoId(music.uuid)
       musicReproductorStore.current = getCurrentMusicStructured(music)
       lastMusic = getCurrentMusicStructured(music)
@@ -441,22 +441,22 @@ const back = () => {
       musicReproductorStore.setVideoId(musicReproductorStore.lastMusic.id.videoId)
       musicReproductorStore.current = musicReproductorStore.lastMusic
     } else {
-      const fistTrack = musicStore.downloaded[0]
+      const fistTrack = musicStore.currentPlayList[0]
       musicReproductorStore.setVideoId(fistTrack.uuid)
       musicReproductorStore.current = getCurrentMusicStructured(fistTrack)
     }
   } else {
-    const index = musicStore.downloaded.findIndex(
+    const index = musicStore.currentPlayList.findIndex(
       (music) => music.uuid === musicReproductorStore.current.id.videoId,
     )
     let lastMusic = null
     if (index === 0) {
-      const music = musicStore.downloaded[musicStore.downloaded.length - 1]
+      const music = musicStore.currentPlayList[musicStore.currentPlayList.length - 1]
       musicReproductorStore.setVideoId(music.uuid)
       musicReproductorStore.current = getCurrentMusicStructured(music)
       lastMusic = getCurrentMusicStructured(music)
     } else {
-      const music = musicStore.downloaded[index - 1]
+      const music = musicStore.currentPlayList[index - 1]
       musicReproductorStore.setVideoId(music.uuid)
       musicReproductorStore.current = getCurrentMusicStructured(music)
       lastMusic = getCurrentMusicStructured(music)
