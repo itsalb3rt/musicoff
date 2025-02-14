@@ -1,10 +1,18 @@
 <template>
-  <q-card :class="musicReproductorStore.current.id.videoId === music.uuid ? 'bg-primary' : ''" flat>
+  <q-card
+    :class="
+      enabledHighlight && musicReproductorStore.current.id.videoId === music.uuid
+        ? 'bg-primary'
+        : ''
+    "
+    flat
+  >
     <q-card-section>
       <div class="row items-center q-col-gutter-md">
         <div @click="() => playAudio()" class="col-3" style="position: relative">
           <q-img :src="music.thumbnail" alt="thumbnail" />
           <q-btn
+            v-show="allowPlay"
             style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%)"
             dense
             rounded
@@ -23,9 +31,12 @@
             {{ $t('common.playTimes') }}: {{ music.playTimes ? formatNumber(music.playTimes) : 0 }}
           </div>
         </div>
+        <!-- This is used to replace the default options -->
+        <slot name="extra-options" />
+
         <div v-if="showOptions" class="col-1">
           <q-btn dense class="float-right" icon="more_vert" flat round>
-            <q-menu>
+            <q-menu class="no-shadow">
               <q-list style="min-width: 100px">
                 <q-item @click="() => (showDeleteDialog = true)" clickable v-close-popup>
                   <q-item-section>{{ $t('action.delete') }}</q-item-section>
@@ -63,6 +74,14 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  allowPlay: {
+    type: Boolean,
+    default: true,
+  },
+  enabledHighlight: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 const emit = defineEmits(['delete', 'play'])
@@ -78,6 +97,10 @@ const deleteMusic = () => {
 }
 
 const playAudio = () => {
+  if (!props.allowPlay) {
+    return
+  }
+
   // Track the last music played
   if (musicReproductorStore.current.id.videoId) {
     musicReproductorStore.lastMusic = musicReproductorStore.current
