@@ -7,6 +7,11 @@
             {{ $t('common.home') }}
           </p>
         </div>
+        <div class="col-12">
+          <p class="text-h6">
+            {{ $t('common.tops') }}
+          </p>
+        </div>
         <div class="col-6">
           <q-card @click="tab = 'top10'" flat>
             <q-card-section>
@@ -20,6 +25,45 @@
               </div>
             </q-card-section>
           </q-card>
+        </div>
+        <div class="col-12">
+          <p class="text-h6">
+            {{ $t('common.myPlaylists') }}
+            <q-btn
+              v-if="musicStore.playlists.length > 0"
+              class="float-right"
+              flat
+              dense
+              icon="add"
+              @click="() => (showPlaylistCreationForm = true)"
+              :label="$t('action.createPlayList')"
+            />
+          </p>
+
+          <div class="col-12">
+            <template v-if="musicStore.playlists.length === 0">
+              <div class="text-center">
+                <p class="text-center text-grey-8 q-my-md">
+                  {{ $t('messages.youNoHavePlayListsCreated') }}
+                </p>
+                <q-btn
+                  color="primary"
+                  icon="add"
+                  @click="() => (showPlaylistCreationForm = true)"
+                  :label="$t('action.createPlayList')"
+                />
+              </div>
+            </template>
+            <div class="row q-col-gutter-sm">
+              <div class="col-6" v-for="(playlist, index) in musicStore.playlists" :key="index">
+                <play-list-card
+                  @details="() => handleShowPlaylistDetails(playlist)"
+                  @delete="() => musicStore.deletePlayList(playlist)"
+                  :playlist="playlist"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -62,6 +106,32 @@
         <div style="height: 100px" />
       </div>
     </div>
+
+    <q-dialog maximized v-model="showPlaylistCreationForm" persistent>
+      <q-card flat>
+        <q-card-section>
+          <div class="text-h6">
+            {{ $t('action.createPlayList') }}
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <play-list-creation-form @submit="handleSubmitPlaylistCreation" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+    <!-- Playlist details -->
+    <q-dialog maximized persistent v-model="showPlaylistDetails">
+      <q-card flat>
+        <q-card-section class="row justify-between items-center q-pa-md">
+          <q-btn flat round dense icon="arrow_back" @click="() => (showPlaylistDetails = false)" />
+          <q-space />
+          <q-btn flat round dense icon="edit" />
+        </q-card-section>
+        <q-card-section>
+          <play-list-details :playlist="musicStore.currentPlayList" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -69,11 +139,17 @@
 import { ref, watch } from 'vue'
 import { useMusicStore } from 'src/stores/Music'
 import MusicCard from 'components/music/MusicCard.vue'
+import PlayListCard from 'components/playlist/PlayListCard.vue'
+import PlayListCreationForm from 'components/playlist/PlayListCreationForm.vue'
+import PlayListDetails from 'components/playlist/PlayListDetails.vue'
+import { v4 } from 'uuid'
 
 const tab = ref('main')
 const top10 = ref([])
 const musicStore = useMusicStore()
 const showPlayTimesTooltip = ref(false)
+const showPlaylistCreationForm = ref(false)
+const showPlaylistDetails = ref(false)
 
 // watch tab changes
 watch(tab, () => {
@@ -84,5 +160,15 @@ watch(tab, () => {
 
 const handlePlayTop10 = () => {
   musicStore.currentPlayList = musicStore.getTop10
+}
+
+const handleSubmitPlaylistCreation = (playlist) => {
+  musicStore.addPlayList(playlist)
+  showPlaylistCreationForm.value = false
+}
+
+const handleShowPlaylistDetails = (playlist) => {
+  musicStore.currentPlayList = { ...playlist, uuid: v4() }
+  showPlaylistDetails.value = true
 }
 </script>
