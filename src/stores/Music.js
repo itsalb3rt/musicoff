@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 
+
 export const useMusicStore = defineStore('music', {
   persist: true,
   state: () => ({
@@ -20,6 +21,16 @@ export const useMusicStore = defineStore('music', {
        */
     ],
     currentPlayList: [], // This is the current playlist in the player to use all the logic over it
+    playlists: [
+      /***
+       {
+        uuid: 'uuid',
+        name: 'Gym workout',
+        musics: [],
+        orderNumber: 1
+       }
+       */
+    ],
     sortBy: 'newToOld' // newToOld, oldToNew, titleAZ, titleZA
   }),
   getters: {
@@ -47,7 +58,8 @@ export const useMusicStore = defineStore('music', {
     getTop10() {
       const ordered = [...this.downloaded]
       return ordered.sort((a, b) => (b.playTimes || 0) - (a.playTimes || 0)).slice(0, 10)
-    }
+    },
+
   },
   actions: {
     add(file) {
@@ -63,5 +75,18 @@ export const useMusicStore = defineStore('music', {
     remove(uuid) {
       this.downloaded = this.downloaded.filter(f => f.uuid !== uuid)
     },
+    addPlayList({ name, musics }) {
+      this.playlists.push({
+        name,
+        musics: musics || [],
+        orderNumber: this.playlists.length + 1
+      })
+    },
+    deletePlayList(uuid) {
+      this.playlists = this.playlists.filter(p => p.uui !== uuid)
+    },
+    clearPlalist() {
+      this.playlists = []
+    }
   }
 })
