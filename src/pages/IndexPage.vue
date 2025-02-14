@@ -47,6 +47,7 @@
                   {{ $t('messages.youNoHavePlayListsCreated') }}
                 </p>
                 <q-btn
+                  rounded
                   color="primary"
                   icon="add"
                   @click="() => (showPlaylistCreationForm = true)"

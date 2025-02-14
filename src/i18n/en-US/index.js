@@ -29,6 +29,7 @@ export default {
     tops: 'Tops',
     myMusic: 'My music',
     name: 'Name',
+    noPlaylists: 'No playlists',
   },
   messages: {
     searchForVideos: 'Search for videos',
@@ -44,6 +45,7 @@ export default {
     youNoHavePlayListsCreated: 'You have no playlists created',
     playlistPlaceHollder: 'Example: Gym workout',
     areYouSureYouWantToDeleteThePlaylist: 'Are you sure you want to delete the playlist? the musics will not be deleted and will be available in the downloaded music',
+    youNoHavePlaylistsCreated: 'You have no playlists created',
   },
   error: {
     serverNotConfigured: 'Server not configured, go to settings and configure the server',

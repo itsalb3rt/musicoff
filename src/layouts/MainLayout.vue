@@ -167,10 +167,41 @@
       </q-card-section>
       <q-card-section>
         <div class="row q-col-gutter-sm">
+          <template v-if="musicStore.playlists.length !== 0">
+            <div class="col-12 q-my-lg text-center">
+              <div class="q-mb-md">
+                {{ $t('messages.youNoHavePlaylistsCreated') }}
+              </div>
+              <q-btn
+                rounded
+                color="primary"
+                icon="add"
+                @click="() => (showPlaylistCreationForm = true)"
+                :label="$t('action.createPlayList')"
+              />
+            </div>
+          </template>
           <div class="col-12" v-for="(playlist, index) in musicStore.playlists" :key="index">
             <play-list-card-mini :music="musicToAddToPlaylist" :playlist="playlist" />
           </div>
         </div>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
+  <q-dialog maximized v-model="showPlaylistCreationForm" persistent>
+    <q-card flat>
+      <q-card-section class="text-h6">
+        <q-btn
+          flat
+          round
+          dense
+          icon="arrow_back"
+          @click="() => (showPlaylistCreationForm = false)"
+        />
+        {{ $t('action.createPlayList') }}
+      </q-card-section>
+      <q-card-section>
+        <play-list-creation-form @created="handleSubmitPlaylistCreation" />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -195,6 +226,7 @@ import MainSearchPage from 'src/pages/MainSearch.vue'
 import MainSettingsPage from 'src/pages/MainSettings.vue'
 import EditForm from 'components/music/EditForm.vue'
 import PlayListCardMini from 'src/components/playlist/PlayListCardMini.vue'
+import PlayListCreationForm from 'src/components/playlist/PlayListCreationForm.vue'
 
 const player = ref(null)
 const isPaused = ref(false)
@@ -209,6 +241,7 @@ const currentMusicToEdit = ref({})
 const showEditMusic = ref(false)
 const musicToAddToPlaylist = ref(null)
 const showAddToPlaylist = ref(false)
+const showPlaylistCreationForm = ref(false)
 
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
@@ -216,6 +249,10 @@ const { videoId } = storeToRefs(musicReproductorStore)
 
 const handleChangeTab = (tab) => {
   currentTab.value = tab
+}
+
+const handleSubmitPlaylistCreation = () => {
+  showPlaylistCreationForm.value = false
 }
 
 const handleShowAddToPlaylist = (uuid) => {
