@@ -113,25 +113,38 @@
 
         <q-btn @click="next" flat round icon="fast_forward" size="lg" />
       </q-card-section>
-      <q-card-section class="row justify-center q-pa-md">
-        <q-btn
-          @click="musicReproductorStore.repeat = !musicReproductorStore.repeat"
-          :color="musicReproductorStore.repeat ? 'primary' : 'white'"
-          flat
-          round
-          icon="repeat"
-          size="md"
-        />
-        <q-btn
-          style="float: right"
-          :color="musicReproductorStore.random ? 'primary' : 'white'"
-          @click="musicReproductorStore.random = !musicReproductorStore.random"
-          flat
-          dense
-          rounded
-          icon="shuffle"
-          size="md"
-        />
+      <q-card-section>
+        <div class="row">
+          <div class="col-4"></div>
+          <div class="col-4 text-center">
+            <q-btn
+              @click="musicReproductorStore.repeat = !musicReproductorStore.repeat"
+              :color="musicReproductorStore.repeat ? 'primary' : 'white'"
+              flat
+              round
+              icon="repeat"
+              size="md"
+            />
+            <q-btn
+              :color="musicReproductorStore.random ? 'primary' : 'white'"
+              @click="musicReproductorStore.random = !musicReproductorStore.random"
+              flat
+              dense
+              rounded
+              icon="shuffle"
+              size="md"
+            />
+          </div>
+          <div class="col-4 text-right">
+            <q-btn
+              @click="() => handleShowAddToPlaylist(musicReproductorStore.current.id.videoId)"
+              flat
+              round
+              icon="playlist_add"
+              size="md"
+            />
+          </div>
+        </div>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -142,6 +155,22 @@
       </q-card-section>
       <q-card-section>
         <EditForm @submit="handleMusicEditSubmit" :music="currentMusicToEdit" />
+      </q-card-section>
+    </q-card>
+  </q-dialog>
+  <!-- Add music to playlist -->
+  <q-dialog v-model="showAddToPlaylist" maximized persistent>
+    <q-card flat>
+      <q-card-section class="text-h6">
+        <q-btn flat round dense icon="arrow_back" @click="showAddToPlaylist = false" />
+        {{ $t('action.addToPlaylist') }}
+      </q-card-section>
+      <q-card-section>
+        <div class="row q-col-gutter-sm">
+          <div class="col-12" v-for="(playlist, index) in musicStore.playlists" :key="index">
+            <play-list-card-mini :music="musicToAddToPlaylist" :playlist="playlist" />
+          </div>
+        </div>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -165,6 +194,7 @@ import MainMusicPage from 'src/pages/music/MainMusic.vue'
 import MainSearchPage from 'src/pages/MainSearch.vue'
 import MainSettingsPage from 'src/pages/MainSettings.vue'
 import EditForm from 'components/music/EditForm.vue'
+import PlayListCardMini from 'src/components/playlist/PlayListCardMini.vue'
 
 const player = ref(null)
 const isPaused = ref(false)
@@ -177,6 +207,8 @@ const currentTab = ref('home')
 const currentTime = ref(0)
 const currentMusicToEdit = ref({})
 const showEditMusic = ref(false)
+const musicToAddToPlaylist = ref(null)
+const showAddToPlaylist = ref(false)
 
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
@@ -184,6 +216,12 @@ const { videoId } = storeToRefs(musicReproductorStore)
 
 const handleChangeTab = (tab) => {
   currentTab.value = tab
+}
+
+const handleShowAddToPlaylist = (uuid) => {
+  const music = musicStore.downloaded.find((m) => m.uuid === uuid)
+  musicToAddToPlaylist.value = music
+  showAddToPlaylist.value = true
 }
 
 const handleShowReproductorOnFullScreen = () => {

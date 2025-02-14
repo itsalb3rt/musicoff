@@ -109,10 +109,15 @@
 
     <q-dialog maximized v-model="showPlaylistCreationForm" persistent>
       <q-card flat>
-        <q-card-section>
-          <div class="text-h6">
-            {{ $t('action.createPlayList') }}
-          </div>
+        <q-card-section class="text-h6">
+          <q-btn
+            flat
+            round
+            dense
+            icon="arrow_back"
+            @click="() => (showPlaylistCreationForm = false)"
+          />
+          {{ $t('action.createPlayList') }}
         </q-card-section>
         <q-card-section>
           <play-list-creation-form @submit="handleSubmitPlaylistCreation" />
