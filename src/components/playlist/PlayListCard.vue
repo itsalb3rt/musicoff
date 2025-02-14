@@ -48,7 +48,7 @@ const props = defineProps({
   playlist: Object,
 })
 
-const emit = defineEmits(['delete', 'on-details'])
+const emit = defineEmits(['delete', 'details'])
 
 emit('delete', props.playlist.uuid)
 
