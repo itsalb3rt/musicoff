@@ -9,6 +9,7 @@
     <div class="q-my-sm" v-for="(music, index) in playlist.musics" :key="index">
       <music-card
         :ref="(ref) => (musicaCardRefs[index] = ref)"
+        :show-options="false"
         @play="addPlaylistToCurrentPlaylist"
         :music="music"
       />
