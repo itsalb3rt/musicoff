@@ -128,7 +128,7 @@
           <q-btn flat round dense icon="edit" />
         </q-card-section>
         <q-card-section>
-          <play-list-details :playlist="musicStore.currentPlayList" />
+          <play-list-details :playlist="selectedPlaylist" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -150,6 +150,7 @@ const musicStore = useMusicStore()
 const showPlayTimesTooltip = ref(false)
 const showPlaylistCreationForm = ref(false)
 const showPlaylistDetails = ref(false)
+const selectedPlaylist = ref({})
 
 // watch tab changes
 watch(tab, () => {
@@ -163,12 +164,12 @@ const handlePlayTop10 = () => {
 }
 
 const handleSubmitPlaylistCreation = (playlist) => {
-  musicStore.addPlayList(playlist)
+  musicStore.addPlayList({ ...playlist, uuid: v4() })
   showPlaylistCreationForm.value = false
 }
 
 const handleShowPlaylistDetails = (playlist) => {
-  musicStore.currentPlayList = { ...playlist, uuid: v4() }
+  selectedPlaylist.value = playlist
   showPlaylistDetails.value = true
 }
 </script>
