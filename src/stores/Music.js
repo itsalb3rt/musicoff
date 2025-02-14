@@ -75,17 +75,27 @@ export const useMusicStore = defineStore('music', {
     remove(uuid) {
       this.downloaded = this.downloaded.filter(f => f.uuid !== uuid)
     },
-    addPlayList({ name, musics }) {
+    addPlayList({ name, musics, uuid }) {
       this.playlists.push({
+        uuid,
         name,
         musics: musics || [],
-        orderNumber: this.playlists.length + 1
+        orderNumber: this.playlists.length + 1,
       })
     },
     deletePlayList(uuid) {
       this.playlists = this.playlists.filter(p => p.uui !== uuid)
     },
-    clearPlalist() {
+    addMusicToPlaylist({ musicUuid, playlistUuid }) {
+      const playlist = this.playlists.find(p => p.uuid === playlistUuid)
+      const music = this.downloaded.find(m => m.uuid === musicUuid)
+      playlist.musics.push(music)
+    },
+    removeMusicFromPlaylist({ musicUuid, playlistUuid }) {
+      const playlist = this.playlists.find(p => p.uuid === playlistUuid)
+      playlist.musics = playlist.musics.filter(m => m.uuid !== musicUuid)
+    },
+    clearAllPlaylists() {
       this.playlists = []
     }
   }
