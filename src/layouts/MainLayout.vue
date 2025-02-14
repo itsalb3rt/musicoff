@@ -167,7 +167,7 @@
       </q-card-section>
       <q-card-section>
         <div class="row q-col-gutter-sm">
-          <template v-if="musicStore.playlists.length !== 0">
+          <template v-if="musicStore.playlists.length === 0">
             <div class="col-12 q-my-lg text-center">
               <div class="q-mb-md">
                 {{ $t('messages.youNoHavePlaylistsCreated') }}
