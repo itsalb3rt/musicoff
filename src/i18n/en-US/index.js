@@ -25,6 +25,10 @@ export default {
     titleZA: 'Title Z-A',
     myTop10: 'My top 10',
     playTimes: 'Play times',
+    myPlaylists: 'My playlists',
+    tops: 'Tops',
+    myMusic: 'My music',
+    name: 'Name',
   },
   messages: {
     searchForVideos: 'Search for videos',
@@ -36,12 +40,16 @@ export default {
     musicBackupFileCopiedToClipboard: 'Music backup file copied to clipboard',
     musicBackupFileRestored: 'Music backup file restored',
     allDownloaded: 'All downloaded',
-    playTimesDescription: 'The play counter is based on the number of times the song has been played in its entirety.'
+    playTimesDescription: 'The play counter is based on the number of times the song has been played in its entirety.',
+    youNoHavePlayListsCreated: 'You have no playlists created',
+    playlistPlaceHollder: 'Example: Gym workout',
+    areYouSureYouWantToDeleteThePlaylist: 'Are you sure you want to delete the playlist? the musics will not be deleted and will be available in the downloaded music',
   },
   error: {
     serverNotConfigured: 'Server not configured, go to settings and configure the server',
     musicBackupFileRestoreError: 'Error restoring music backup file, look like the file is invalid or improperly formatted',
     downloadErrorPleaseTryAgain: 'Download error, please try again',
+    requiredField: 'Required field',
   },
   action: {
     delete: 'Delete',
@@ -53,5 +61,7 @@ export default {
     restore: 'Restore',
     cancel: 'Cancel',
     downloadAll: 'Download all',
+    createPlayList: 'Create playlist',
+    savePlaylist: 'Save playlist',
   }
 }
