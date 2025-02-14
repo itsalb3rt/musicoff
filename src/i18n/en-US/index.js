@@ -63,5 +63,6 @@ export default {
     downloadAll: 'Download all',
     createPlayList: 'Create playlist',
     savePlaylist: 'Save playlist',
+    play: 'Play',
   }
 }
