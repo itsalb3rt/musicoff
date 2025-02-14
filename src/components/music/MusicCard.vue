@@ -112,4 +112,8 @@ const playAudio = () => {
   musicReproductorStore.setShowPlayer(true)
   emit('play')
 }
+
+defineExpose({
+  playAudio,
+})
 </script>
