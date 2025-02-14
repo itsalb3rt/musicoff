@@ -45,8 +45,9 @@
 import { ref } from 'vue'
 import MusicCard from 'components/music/MusicCard.vue'
 import { useMusicStore } from 'src/stores/Music'
+import { v4 } from 'uuid'
 
-const emit = defineEmits(['submit'])
+const emit = defineEmits(['created'])
 
 const name = ref('')
 const selection = ref([])
@@ -62,6 +63,7 @@ const handleRemoveMusic = (music) => {
 const isSelected = (music) => selection.value.some((m) => m.uuid === music.uuid)
 
 const onSubmit = () => {
-  emit('submit', { name: name.value, musics: selection.value })
+  musicStore.addPlayList({ name: name.value, musics: selection.value, uuid: v4() })
+  emit('created')
 }
 </script>

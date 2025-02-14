@@ -120,7 +120,7 @@
           {{ $t('action.createPlayList') }}
         </q-card-section>
         <q-card-section>
-          <play-list-creation-form @submit="handleSubmitPlaylistCreation" />
+          <play-list-creation-form @created="handleSubmitPlaylistCreation" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -147,7 +147,6 @@ import MusicCard from 'components/music/MusicCard.vue'
 import PlayListCard from 'components/playlist/PlayListCard.vue'
 import PlayListCreationForm from 'components/playlist/PlayListCreationForm.vue'
 import PlayListDetails from 'components/playlist/PlayListDetails.vue'
-import { v4 } from 'uuid'
 
 const tab = ref('main')
 const top10 = ref([])
@@ -168,8 +167,7 @@ const handlePlayTop10 = () => {
   musicStore.currentPlayList = musicStore.getTop10
 }
 
-const handleSubmitPlaylistCreation = (playlist) => {
-  musicStore.addPlayList({ ...playlist, uuid: v4() })
+const handleSubmitPlaylistCreation = () => {
   showPlaylistCreationForm.value = false
 }
 
