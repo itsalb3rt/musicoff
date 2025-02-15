@@ -3,6 +3,9 @@
     <div class="text-h6 text-center">
       {{ playlist.name }}
     </div>
+    <div class="text-caption text-center text-grey-8">
+      {{ playlist.musics.length }} {{ $t('common.music') }}
+    </div>
     <div class="text-center q-my-lg">
       <q-btn @click="handlePlay" rounded color="primary" :label="$t('action.play')" />
     </div>
