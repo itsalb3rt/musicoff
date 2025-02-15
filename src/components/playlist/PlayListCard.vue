@@ -21,7 +21,8 @@
             {{ playlist.name }}
           </div>
           <div class="text-caption">
-            {{ formatNumber(playlist.musics.length) }} {{ $t('common.music') }}
+            {{ playlist?.musics?.length ? formatNumber(playlist.musics.length) : 0 }}
+            {{ $t('common.music') }}
           </div>
         </div>
       </div>

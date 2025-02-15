@@ -12,7 +12,7 @@
     <div class="text-center q-pY-md">
       <q-btn :disable="!name" :label="$t('action.savePlaylist')" type="submit" color="primary" />
     </div>
-    <div>{{ $t('common.playlistMusic') }} ({{ playlist.musics.length }})</div>
+    <div>{{ $t('common.playlistMusic') }} ({{ playlist?.musics?.length || 0 }})</div>
     <p class="text-grey-8 text-center">
       {{ $t('messages.dragTheMusicToChangeTheOrder') }}
     </p>
