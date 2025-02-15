@@ -77,6 +77,10 @@ export const useMusicStore = defineStore('music', {
     },
     remove(uuid) {
       this.downloaded = this.downloaded.filter(f => f.uuid !== uuid)
+      // remove from all playlists
+      this.playlists.forEach(p => {
+        p.musics = p.musics.filter(m => m.uuid !== uuid)
+      })
     },
     addPlayList({ name, musics, uuid }) {
       this.playlists.push({
