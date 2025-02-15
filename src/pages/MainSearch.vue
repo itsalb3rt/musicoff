@@ -31,7 +31,7 @@
     <q-card flat class="q-my-md" v-for="video in videos" :key="video.id.videoId">
       <q-card-section>
         <div class="row items-center q-col-gutter-md">
-          <div class="col-3" style="position: relative">
+          <div class="col-3" style="position: relative" @click="playAudio(video)">
             <q-img :src="video.snippet.thumbnails.default.url" alt="thumbnail" />
             <q-btn
               style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%)"
@@ -42,11 +42,10 @@
               rounded
               outline
               class="q-mr-sm"
-              @click="playAudio(video)"
               icon="play_arrow"
             />
           </div>
-          <div class="col-7">
+          <div class="col-7" @click="playAudio(video)">
             <div>{{ video.snippet.title }}</div>
             <div caption>{{ video.snippet.channelTitle }}</div>
             <div caption>{{ formatYouTubeDuration(video?.contentDetails?.duration) }}</div>
