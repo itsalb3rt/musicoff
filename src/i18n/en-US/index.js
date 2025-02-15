@@ -30,6 +30,7 @@ export default {
     myMusic: 'My music',
     name: 'Name',
     noPlaylists: 'No playlists',
+    playlistMusic: 'Playlist music',
   },
   messages: {
     searchForVideos: 'Search for videos',

@@ -131,10 +131,32 @@
         <q-card-section class="row justify-between items-center q-pa-md">
           <q-btn flat round dense icon="arrow_back" @click="() => (showPlaylistDetails = false)" />
           <q-space />
-          <q-btn flat round dense icon="edit" />
+          <q-btn @click="() => (showPlaylistEditionForm = true)" flat round dense icon="edit" />
         </q-card-section>
         <q-card-section>
           <play-list-details :playlist="selectedPlaylist" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+    <!-- Playlist edition -->
+    <q-dialog maximized persistent v-model="showPlaylistEditionForm">
+      <q-card flat>
+        <q-card-section class="row justify-between items-center q-pa-md">
+          <q-btn
+            flat
+            round
+            dense
+            icon="arrow_back"
+            @click="() => (showPlaylistEditionForm = false)"
+          />
+          <q-space />
+          <q-btn flat round dense icon="edit" />
+        </q-card-section>
+        <q-card-section>
+          <play-list-edition-form
+            @edited="() => (showPlaylistEditionForm = false)"
+            :playlist="selectedPlaylist"
+          />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -148,6 +170,7 @@ import MusicCard from 'components/music/MusicCard.vue'
 import PlayListCard from 'components/playlist/PlayListCard.vue'
 import PlayListCreationForm from 'components/playlist/PlayListCreationForm.vue'
 import PlayListDetails from 'components/playlist/PlayListDetails.vue'
+import PlayListEditionForm from 'components/playlist/PlayListEditionForm.vue'
 
 const tab = ref('main')
 const top10 = ref([])
@@ -156,6 +179,7 @@ const showPlayTimesTooltip = ref(false)
 const showPlaylistCreationForm = ref(false)
 const showPlaylistDetails = ref(false)
 const selectedPlaylist = ref({})
+const showPlaylistEditionForm = ref(false)
 
 // watch tab changes
 watch(tab, () => {
