@@ -71,5 +71,6 @@ export default {
     play: 'Play',
     addToPlaylist: 'Add to playlist',
     reDownload: 'Re-download',
+    download: 'Download',
   }
 }
