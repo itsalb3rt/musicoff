@@ -340,10 +340,8 @@ onMounted(() => {
   player.value.on('stateChange', (event) => {
     if (event.data === 1) {
       // Playing
-      isPaused.value = false
       startPlaybackTimer()
     } else {
-      isPaused.value = true
       stopPlaybackTimer()
     }
   })
