@@ -98,7 +98,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['delete', 'play'])
+const emit = defineEmits(['delete', 'play', 'reDownload'])
 
 const showDeleteDialog = ref(false)
 
@@ -125,6 +125,10 @@ const playAudio = () => {
   musicReproductorStore.current = getCurrentMusicStructured(props.music)
   musicReproductorStore.setShowPlayer(true)
   emit('play')
+}
+
+const reDownload = () => {
+  emit('reDownload', props.music.uuid)
 }
 
 defineExpose({
