@@ -101,6 +101,7 @@
         @delete="handleDeleteMusic"
         :music="music"
         :enabled-re-download="true"
+        :allow-play="music.downloaded"
       />
     </div>
     <!-- To avoid hide the last track -->

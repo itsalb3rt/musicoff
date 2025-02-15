@@ -48,7 +48,7 @@
                     <q-icon color="primary" name="download" />
                   </q-item-section>
                   <q-item-section class="flex no-wrap">
-                    {{ $t('action.reDownload') }}
+                    {{ music.downloaded ? $t('action.reDownload') : $t('action.download') }}
                   </q-item-section>
                 </q-item>
                 <q-separator v-if="enabledReDownload" spaced inset />
