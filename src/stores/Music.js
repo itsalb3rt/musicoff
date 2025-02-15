@@ -69,6 +69,9 @@ export const useMusicStore = defineStore('music', {
     setDownloaded(files) {
       this.downloaded = files
     },
+    setPlaylists(playlists) {
+      this.playlists = playlists
+    },
     isDownloaded(originId) {
       return this.downloaded.some(f => f.originId === originId)
     },

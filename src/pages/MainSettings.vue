@@ -104,15 +104,13 @@ const restoreMusicBackupFile = async () => {
     restoringBackup.value = true
     const data = JSON.parse(restoreBackupText.value)
 
-    if (!Array.isArray(data)) {
-      throw new Error('Invalid data')
+    if (data.downloaded) {
+      musicStore.setDownloaded(data.downloaded)
     }
 
-    if (data.length === 0) {
-      throw new Error('Empty data')
+    if (data.playlists) {
+      musicStore.setPlaylists(data.playlists)
     }
-
-    musicStore.setDownloaded(data)
 
     $q.notify({
       message: $t('messages.musicBackupFileRestored'),
