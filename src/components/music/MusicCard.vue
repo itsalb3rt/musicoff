@@ -36,10 +36,24 @@
 
         <div v-if="showOptions" class="col-1">
           <q-btn dense class="float-right" icon="more_vert" flat round>
-            <q-menu class="no-shadow">
-              <q-list style="min-width: 100px">
+            <q-menu class="dark-mode-shadow">
+              <q-list style="min-width: 200px">
+                <q-item @click="() => reDownload()" clickable v-close-popup>
+                  <q-item-section avatar>
+                    <q-icon color="primary" name="download" />
+                  </q-item-section>
+                  <q-item-section class="flex no-wrap">
+                    {{ $t('action.reDownload') }}
+                  </q-item-section>
+                </q-item>
+                <q-separator spaced inset />
                 <q-item @click="() => (showDeleteDialog = true)" clickable v-close-popup>
-                  <q-item-section>{{ $t('action.delete') }}</q-item-section>
+                  <q-item-section avatar>
+                    <q-icon color="negative" name="delete" />
+                  </q-item-section>
+                  <q-item-section>
+                    {{ $t('action.delete') }}
+                  </q-item-section>
                 </q-item>
               </q-list>
             </q-menu>

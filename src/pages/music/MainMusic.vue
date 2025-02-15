@@ -16,14 +16,17 @@
       </template>
       <template v-slot:after>
         <q-btn flat round icon="sort">
-          <q-menu class="no-shadow">
-            <q-list style="min-width: 150px">
+          <q-menu class="dark-mode-shadow">
+            <q-list style="min-width: 250px">
               <q-item
                 :class="musicStore.sortBy === 'newToOld' ? 'bg-primary text-white' : ''"
                 @click="() => handleSetSort('newToOld')"
                 clickable
                 v-close-popup
               >
+                <q-item-section avatar>
+                  <q-icon color="white" :name="fasStar" />
+                </q-item-section>
                 <q-item-section>
                   {{ $t('common.newToOld') }}
                 </q-item-section>
@@ -34,6 +37,9 @@
                 clickable
                 v-close-popup
               >
+                <q-item-section avatar>
+                  <q-icon color="white" :name="fasSortDown" />
+                </q-item-section>
                 <q-item-section>
                   {{ $t('common.oldToNew') }}
                 </q-item-section>
@@ -44,6 +50,9 @@
                 clickable
                 v-close-popup
               >
+                <q-item-section avatar>
+                  <q-icon color="white" :name="fasArrowUpAZ" />
+                </q-item-section>
                 <q-item-section>
                   {{ $t('common.titleAZ') }}
                 </q-item-section>
@@ -54,6 +63,9 @@
                 clickable
                 v-close-popup
               >
+                <q-item-section avatar>
+                  <q-icon color="white" :name="fasArrowUpZA" />
+                </q-item-section>
                 <q-item-section>
                   {{ $t('common.titleZA') }}
                 </q-item-section>
@@ -114,6 +126,7 @@ import { useSettingsStore } from 'src/stores/Settings'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { saveMusic } from 'src/utils/file'
+import { fasArrowUpAZ, fasArrowUpZA, fasStar, fasSortDown } from '@quasar/extras/fontawesome-v6'
 
 const $q = useQuasar()
 const $t = useI18n().t

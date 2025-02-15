@@ -7,9 +7,12 @@
             {{ getTheFirstLetter(playlist.name) }}
           </q-avatar>
           <q-btn dense style="position: absolute" icon="more_vert" flat round>
-            <q-menu class="no-shadow">
-              <q-list style="min-width: 100px">
+            <q-menu class="dark-mode-shadow">
+              <q-list style="min-width: 150px">
                 <q-item @click="() => (showDeleteDialog = true)" clickable v-close-popup>
+                  <q-item-section avatar>
+                    <q-icon color="negative" name="delete" />
+                  </q-item-section>
                   <q-item-section>{{ $t('action.delete') }}</q-item-section>
                 </q-item>
               </q-list>
