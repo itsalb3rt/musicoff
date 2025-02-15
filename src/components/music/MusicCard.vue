@@ -38,7 +38,12 @@
           <q-btn dense class="float-right" icon="more_vert" flat round>
             <q-menu class="dark-mode-shadow">
               <q-list style="min-width: 200px">
-                <q-item @click="() => reDownload()" clickable v-close-popup>
+                <q-item
+                  v-if="enabledReDownload"
+                  @click="() => reDownload()"
+                  clickable
+                  v-close-popup
+                >
                   <q-item-section avatar>
                     <q-icon color="primary" name="download" />
                   </q-item-section>
@@ -46,7 +51,7 @@
                     {{ $t('action.reDownload') }}
                   </q-item-section>
                 </q-item>
-                <q-separator spaced inset />
+                <q-separator v-if="enabledReDownload" spaced inset />
                 <q-item @click="() => (showDeleteDialog = true)" clickable v-close-popup>
                   <q-item-section avatar>
                     <q-icon color="negative" name="delete" />
@@ -95,6 +100,10 @@ const props = defineProps({
   enabledHighlight: {
     type: Boolean,
     default: true,
+  },
+  enabledReDownload: {
+    type: Boolean,
+    default: false,
   },
 })
 

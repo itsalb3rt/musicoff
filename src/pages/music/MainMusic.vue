@@ -100,6 +100,7 @@
         @re-download="handleReDownloadMusic"
         @delete="handleDeleteMusic"
         :music="music"
+        :enabled-re-download="true"
       />
     </div>
     <!-- To avoid hide the last track -->
