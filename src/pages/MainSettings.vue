@@ -140,12 +140,19 @@ const restoreMusicBackupFile = async () => {
 const downloadMusicBackupFile = async () => {
   creatingBackup.value = true
 
-  const data = musicStore.downloaded.map((music) => {
+  const data = {
+    downloaded: [],
+    playlists: [],
+  }
+
+  data.downloaded = musicStore.downloaded.map((music) => {
     return {
       ...music,
       downloaded: false,
     }
   })
+
+  data.playlists = musicStore.playlists
 
   await Clipboard.write({
     string: JSON.stringify(data),
