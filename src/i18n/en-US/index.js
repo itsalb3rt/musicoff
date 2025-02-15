@@ -47,7 +47,8 @@ export default {
     playlistPlaceHollder: 'Example: Gym workout',
     areYouSureYouWantToDeleteThePlaylist: 'Are you sure you want to delete the playlist? the musics will not be deleted and will be available in the downloaded music',
     youNoHavePlaylistsCreated: 'You have no playlists created',
-    dragTheMusicToChangeTheOrder: 'Drag the music to change the order'
+    dragTheMusicToChangeTheOrder: 'Drag the music to change the order',
+    downloaded: 'Downloaded',
   },
   error: {
     serverNotConfigured: 'Server not configured, go to settings and configure the server',

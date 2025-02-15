@@ -95,7 +95,12 @@
     </p>
 
     <div class="q-my-sm" v-for="music in musicFiltered" :key="music.uuid">
-      <music-card @play="handlePlay" @delete="handleDeleteMusic" :music="music" />
+      <music-card
+        @play="handlePlay"
+        @re-download="handleReDownloadMusic"
+        @delete="handleDeleteMusic"
+        :music="music"
+      />
     </div>
     <!-- To avoid hide the last track -->
     <div style="height: 100px" />
@@ -213,5 +218,18 @@ const handleDownloadAll = async () => {
 
 const handlePlay = () => {
   musicStore.currentPlayList = musicStore.downloaded
+}
+
+const handleReDownloadMusic = async (uuid) => {
+  const music = musicStore.getDownloaded.find((music) => music.uuid === uuid)
+  showLoadingDownloadAllDialog.value = true
+  currentDownloadNumber.value = 1
+  totalDownloadNumber.value = 1
+  await downloadAudio(music.originId)
+  $q.notify({
+    message: $t('messages.downloaded'),
+    color: 'positive',
+  })
+  showLoadingDownloadAllDialog.value = false
 }
 </script>
