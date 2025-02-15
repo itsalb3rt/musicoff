@@ -94,7 +94,7 @@
       </p>
     </template>
     <q-dialog maximized="" v-model="showLoadingDownloadAllDialog" persistent>
-      <q-card class="text-center">
+      <q-card flat class="text-center">
         <q-card-section style="margin-top: 50%">
           <q-spinner-gears size="50px" />
           <p class="text-h6 q-mt-md">

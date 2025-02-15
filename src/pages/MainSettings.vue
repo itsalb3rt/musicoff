@@ -38,7 +38,7 @@
           :label="$t('action.openRestoreMusicBackupFile')"
         />
         <q-dialog full-width v-model="showRestoreBackupDialog">
-          <q-card>
+          <q-card flat>
             <q-card-section>
               <p class="text-h6">
                 {{ $t('common.restoreMusicBackupFile') }}

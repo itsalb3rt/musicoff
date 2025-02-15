@@ -49,7 +49,7 @@
     </q-card-section>
   </q-card>
   <q-dialog v-model="showDeleteDialog">
-    <q-card>
+    <q-card flat>
       <q-card-section>
         {{ $t('messages.areYouSureYouWantToDelete') }}
       </q-card-section>
