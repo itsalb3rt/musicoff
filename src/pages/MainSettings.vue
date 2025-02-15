@@ -112,6 +112,11 @@ const restoreMusicBackupFile = async () => {
       musicStore.setPlaylists(data.playlists)
     }
 
+    // check if data an array for old versions only, this will be removed in the future
+    if (Array.isArray(data)) {
+      musicStore.setDownloaded(data)
+    }
+
     $q.notify({
       message: $t('messages.musicBackupFileRestored'),
       color: 'positive',
