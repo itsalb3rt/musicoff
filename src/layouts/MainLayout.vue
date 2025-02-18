@@ -12,6 +12,14 @@
   <audio ref="audioRef" :src="`data:audio/mp3;base64,${audio}`" autobuffer="autobuffer" />
   <q-dialog seamless v-model="musicReproductorStore.showPlayer" position="bottom">
     <q-card flat style="width: 350px; margin-bottom: 64px">
+      <q-slider
+        v-if="validate(musicReproductorStore.current.id.videoId)"
+        @update:model-value="handleTimePositionChange"
+        v-model="currentTime"
+        :min="0"
+        :max="audioRef.duration"
+        thumb-size="0px"
+      />
       <q-card-section>
         <div class="row">
           <div class="col-2" @click="handleShowReproductorOnFullScreen">
