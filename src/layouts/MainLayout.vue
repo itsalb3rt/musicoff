@@ -484,8 +484,8 @@ const next = () => {
     const randomIndex = Math.floor(Math.random() * musicStore.currentPlayList.length)
     const music = musicStore.currentPlayList[randomIndex]
     musicReproductorStore.setVideoId(music.uuid)
+    musicReproductorStore.lastMusic = musicReproductorStore.current
     musicReproductorStore.current = getCurrentMusicStructured(music)
-    musicReproductorStore.lastMusic = getCurrentMusicStructured(music)
   } else {
     const index = musicStore.currentPlayList.findIndex(
       (music) => music.uuid === musicReproductorStore.current.id.videoId,
