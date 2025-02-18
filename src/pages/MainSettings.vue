@@ -86,6 +86,7 @@ import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from 'src/stores/Settings'
 import { useMusicStore } from 'src/stores/Music'
 import { Clipboard } from 'app/src-capacitor/node_modules/@capacitor/clipboard'
+import { readMusic } from 'src/utils/file'
 
 const $q = useQuasar()
 const $t = useI18n().t
@@ -105,6 +106,14 @@ const restoreMusicBackupFile = async () => {
     const data = JSON.parse(restoreBackupText.value)
 
     if (data.downloaded) {
+      for (let i = 0; i < data.downloaded.length; i++) {
+        const file = await readMusic(data.downloaded[i].uuid)
+
+        if (file) {
+          data.downloaded[i].downloaded = true
+        }
+      }
+
       musicStore.setDownloaded(data.downloaded)
     }
 
