@@ -34,10 +34,18 @@
             </div>
           </div>
           <div class="col-4">
-            <q-btn dense @click="back" flat round icon="fast_rewind" />
-            <q-btn dense v-if="isPaused" @click="play" flat round icon="play_arrow" />
-            <q-btn dense v-else @click="pause" flat round icon="pause" />
-            <q-btn dense @click="next" flat round icon="fast_forward" />
+            <q-btn dense :ripple="false" @click="back" flat round icon="fast_rewind" />
+            <q-btn
+              dense
+              :ripple="false"
+              v-if="isPaused"
+              @click="play"
+              flat
+              round
+              icon="play_arrow"
+            />
+            <q-btn dense :ripple="false" v-else @click="pause" flat round icon="pause" />
+            <q-btn dense :ripple="false" @click="next" flat round icon="fast_forward" />
           </div>
         </div>
       </q-card-section>
@@ -99,9 +107,10 @@
         />
       </q-card-section>
       <q-card-section class="row justify-center q-pa-md">
-        <q-btn @click="back" flat round icon="fast_rewind" size="lg" />
+        <q-btn :ripple="false" @click="back" flat round icon="fast_rewind" size="lg" />
 
         <q-btn
+          :ripple="false"
           @click="isPaused ? play() : pause()"
           size="40px"
           dense
@@ -111,13 +120,14 @@
           class="q-mx-md"
         />
 
-        <q-btn @click="next" flat round icon="fast_forward" size="lg" />
+        <q-btn :ripple="false" @click="next" flat round icon="fast_forward" size="lg" />
       </q-card-section>
       <q-card-section>
         <div class="row">
           <div class="col-4"></div>
           <div class="col-4 text-center">
             <q-btn
+              :ripple="false"
               @click="musicReproductorStore.repeat = !musicReproductorStore.repeat"
               :color="musicReproductorStore.repeat ? 'primary' : 'white'"
               flat
@@ -126,6 +136,7 @@
               size="md"
             />
             <q-btn
+              :ripple="false"
               :color="musicReproductorStore.random ? 'primary' : 'white'"
               @click="musicReproductorStore.random = !musicReproductorStore.random"
               flat
@@ -137,6 +148,7 @@
           </div>
           <div class="col-4 text-right">
             <q-btn
+              :ripple="false"
               @click="() => handleShowAddToPlaylist(musicReproductorStore.current.id.videoId)"
               flat
               round
