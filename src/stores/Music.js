@@ -104,6 +104,10 @@ export const useMusicStore = defineStore('music', {
     },
     clearAllPlaylists() {
       this.playlists = []
+    },
+    resetPlayTimes(music) {
+      const index = this.downloaded.findIndex(m => m.uuid === music.uuid)
+      this.downloaded[index].playTimes = 0
     }
   }
 })

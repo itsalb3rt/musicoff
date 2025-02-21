@@ -49,6 +49,7 @@ export default {
     youNoHavePlaylistsCreated: 'You have no playlists created',
     dragTheMusicToChangeTheOrder: 'Drag the music to change the order',
     downloaded: 'Downloaded',
+    resetPlayTimesConfirmation: 'Are you sure you want to reset the play times?',
   },
   error: {
     serverNotConfigured: 'Server not configured, go to settings and configure the server',
@@ -72,5 +73,7 @@ export default {
     addToPlaylist: 'Add to playlist',
     reDownload: 'Re-download',
     download: 'Download',
+    resetPlayTimes: 'Reset play times',
+    reset: 'Reset',
   }
 }

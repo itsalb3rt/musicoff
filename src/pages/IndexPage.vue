@@ -101,7 +101,30 @@
             :show-options="false"
             :show-play-times="true"
             :music="music"
-          />
+          >
+            <template v-slot:extra-options>
+              <div class="col-1">
+                <q-btn dense class="float-right" icon="more_vert" flat round>
+                  <q-menu class="dark-mode-shadow">
+                    <q-list style="min-width: 200px">
+                      <q-item
+                        @click="() => handleShowResetPlayTimes(music)"
+                        clickable
+                        v-close-popup
+                      >
+                        <q-item-section avatar>
+                          <q-icon name="refresh" />
+                        </q-item-section>
+                        <q-item-section>
+                          {{ $t('action.resetPlayTimes') }}
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-btn>
+              </div>
+            </template>
+          </music-card>
         </div>
         <!-- To avoid hide the last track -->
         <div style="height: 100px" />
@@ -160,6 +183,43 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    <!-- Reset play times -->
+    <q-dialog v-model="showResetPlayTimes">
+      <q-card flat>
+        <q-card-section class="text-h6">
+          {{ $t('action.resetPlayTimes') }}
+        </q-card-section>
+        <q-card-section>
+          <q-card-section>
+            {{ $t('messages.resetPlayTimesConfirmation', { music: musicToResetPlayTimes.title }) }}
+            <div class="text-center">
+              <div class="text-bold">
+                {{ musicToResetPlayTimes.title }}
+              </div>
+              {{
+                musicToResetPlayTimes.playTimes
+                  ? $t('common.playTimes') + ': ' + formatNumber(musicToResetPlayTimes.playTimes)
+                  : 0
+              }}
+            </div>
+          </q-card-section>
+          <q-card-section class="text-center">
+            <q-btn
+              rounded
+              push
+              @click="() => (showResetPlayTimes = false)"
+              :label="$t('action.cancel')"
+            />
+            <q-btn
+              v-close-popup
+              color="negative"
+              :label="$t('action.reset')"
+              @click="() => handleResetPlayTimes()"
+            />
+          </q-card-section>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -171,6 +231,7 @@ import PlayListCard from 'components/playlist/PlayListCard.vue'
 import PlayListCreationForm from 'components/playlist/PlayListCreationForm.vue'
 import PlayListDetails from 'components/playlist/PlayListDetails.vue'
 import PlayListEditionForm from 'components/playlist/PlayListEditionForm.vue'
+import { formatNumber } from 'src/utils/functions'
 
 const tab = ref('main')
 const top10 = ref([])
@@ -180,6 +241,8 @@ const showPlaylistCreationForm = ref(false)
 const showPlaylistDetails = ref(false)
 const selectedPlaylist = ref({})
 const showPlaylistEditionForm = ref(false)
+const showResetPlayTimes = ref(false)
+const musicToResetPlayTimes = ref({})
 
 // watch tab changes
 watch(tab, () => {
@@ -199,5 +262,16 @@ const handleSubmitPlaylistCreation = () => {
 const handleShowPlaylistDetails = (playlist) => {
   selectedPlaylist.value = playlist
   showPlaylistDetails.value = true
+}
+
+const handleShowResetPlayTimes = (music) => {
+  musicToResetPlayTimes.value = music
+  showResetPlayTimes.value = true
+}
+
+const handleResetPlayTimes = () => {
+  musicStore.resetPlayTimes(musicToResetPlayTimes.value)
+  showResetPlayTimes.value = false
+  top10.value = musicStore.getTop10
 }
 </script>
