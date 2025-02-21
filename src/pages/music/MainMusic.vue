@@ -132,7 +132,7 @@ import MusicCard from 'components/music/MusicCard.vue'
 import { useSettingsStore } from 'src/stores/Settings'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
-import { saveMusic } from 'src/utils/file'
+import { saveMusic, saveThumbnail } from 'src/utils/file'
 import { fasArrowUpAZ, fasArrowUpZA, fasStar, fasSortDown } from '@quasar/extras/fontawesome-v6'
 
 const $q = useQuasar()
@@ -187,6 +187,11 @@ const downloadAudio = async (videoId) => {
       saveMusic({
         uuid: uuid,
         file: response.audio_base64,
+      })
+
+      saveThumbnail({
+        uuid: uuid,
+        file: response.thumbnail_base64,
       })
 
       musicStore.downloaded[index].downloaded = true
