@@ -49,6 +49,13 @@ def download_audio(request: VideoRequest, background_tasks: BackgroundTasks):
             check=True
         )
 
+        # Get artist/uploader metadata
+        artist = subprocess.run(
+            ["yt-dlp", "--print", "%(uploader)s", video_url],
+            capture_output=True,
+            text=True
+        ).stdout.strip()
+
         # Get the latest downloaded MP3 file
         audio_files = sorted(glob.glob(f"{OUTPUT_DIR}/*.mp3"), key=os.path.getctime, reverse=True)
         if not audio_files:
@@ -75,11 +82,12 @@ def download_audio(request: VideoRequest, background_tasks: BackgroundTasks):
         # Schedule cleanup after request
         background_tasks.add_task(clean_old_files)
 
-        # Return Base64-encoded audio and thumbnail
+        # Return Base64-encoded audio, thumbnail, and artist
         return {
             "filename": os.path.basename(audio_file),
             "audio_base64": audio_base64,
-            "thumbnail_base64": thumbnail_base64
+            "thumbnail_base64": thumbnail_base64,
+            "artist": artist
         }
 
     except subprocess.CalledProcessError:
