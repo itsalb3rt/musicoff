@@ -30,7 +30,7 @@
                   : musicReproductorStore.current.snippet.thumbnails.default.url
               "
               alt="thumbnail"
-              style="width: 50px; height: 50px; border-radius: 8px"
+              style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover"
             />
           </div>
           <div class="col-6" @click="handleShowReproductorOnFullScreen">
