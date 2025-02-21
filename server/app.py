@@ -11,10 +11,10 @@ app = FastAPI()
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins (change to specific domains if needed)
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 class VideoRequest(BaseModel):
@@ -24,38 +24,63 @@ OUTPUT_DIR = "downloads"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def clean_old_files():
-    """Delete old MP3 files to save storage."""
-    for file in glob.glob(f"{OUTPUT_DIR}/*.mp3"):
+    """Delete old MP3 and image files to save storage."""
+    for file in glob.glob(f"{OUTPUT_DIR}/*"):
         os.remove(file)
 
 @app.post("/download-audio/")
 def download_audio(request: VideoRequest, background_tasks: BackgroundTasks):
     video_url = request.url
-    output_path = os.path.join(OUTPUT_DIR, "%(title)s.mp3")
+    output_audio_path = os.path.join(OUTPUT_DIR, "%(title)s.mp3")
+    output_thumbnail_path = os.path.join(OUTPUT_DIR, "%(title)s.%(ext)s")
 
     try:
-        # Download and convert video to MP3
+        # Download audio and thumbnail
         subprocess.run(
-            ["yt-dlp", "-f", "bestaudio", "--extract-audio", "--audio-format", "mp3", "-o", output_path, video_url],
+            [
+                "yt-dlp",
+                "-f", "bestaudio",
+                "--extract-audio",
+                "--audio-format", "mp3",
+                "--write-thumbnail",  # Download thumbnail
+                "-o", output_audio_path,
+                video_url
+            ],
             check=True
         )
 
-        # Get the latest downloaded file
-        files = sorted(glob.glob(f"{OUTPUT_DIR}/*.mp3"), key=os.path.getctime, reverse=True)
-        if not files:
+        # Get the latest downloaded MP3 file
+        audio_files = sorted(glob.glob(f"{OUTPUT_DIR}/*.mp3"), key=os.path.getctime, reverse=True)
+        if not audio_files:
             return {"error": "No audio file found"}
+        audio_file = audio_files[0]
 
-        audio_file = files[0]
-
-        # Convert the MP3 file to Base64
+        # Convert MP3 to Base64
         with open(audio_file, "rb") as f:
             audio_base64 = base64.b64encode(f.read()).decode("utf-8")
+
+        # Get the latest downloaded thumbnail file
+        thumbnail_files = sorted(
+            glob.glob(f"{OUTPUT_DIR}/*.jpg") + glob.glob(f"{OUTPUT_DIR}/*.png") + glob.glob(f"{OUTPUT_DIR}/*.webp"),
+            key=os.path.getctime,
+            reverse=True
+        )
+
+        thumbnail_base64 = None
+        if thumbnail_files:
+            thumbnail_file = thumbnail_files[0]
+            with open(thumbnail_file, "rb") as f:
+                thumbnail_base64 = base64.b64encode(f.read()).decode("utf-8")
 
         # Schedule cleanup after request
         background_tasks.add_task(clean_old_files)
 
-        # Return Base64 string
-        return {"filename": os.path.basename(audio_file), "audio_base64": audio_base64}
+        # Return Base64-encoded audio and thumbnail
+        return {
+            "filename": os.path.basename(audio_file),
+            "audio_base64": audio_base64,
+            "thumbnail_base64": thumbnail_base64
+        }
 
     except subprocess.CalledProcessError:
         return {"error": "Failed to download audio"}
