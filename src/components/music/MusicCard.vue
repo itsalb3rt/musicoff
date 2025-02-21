@@ -74,7 +74,7 @@
       </q-card-section>
       <q-card-actions align="center">
         <q-btn rounded push @click="showDeleteDialog = false" label="No" />
-        <q-btn rounded push @click="deleteMusic" color="negative" label="Yes" />
+        <q-btn rounded push @click="dispatchDeleteMusic" color="negative" label="Yes" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -85,6 +85,7 @@ import { ref } from 'vue'
 import { formatYouTubeDuration, getCurrentMusicStructured, formatNumber } from 'src/utils/functions'
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
 import { useMusicStore } from 'src/stores/Music'
+import { deleteMusic, deleteThumbnail } from 'src/utils/file'
 
 const props = defineProps({
   music: Object,
@@ -113,10 +114,15 @@ const showDeleteDialog = ref(false)
 
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
-const deleteMusic = () => {
+
+const dispatchDeleteMusic = () => {
   musicStore.remove(props.music.uuid)
   showDeleteDialog.value = false
   emit('delete', props.music.uuid)
+
+  // Delete the music and thumbnail
+  deleteMusic(props.music.uuid)
+  deleteThumbnail(props.music.uuid)
 }
 
 const playAudio = () => {
