@@ -24,9 +24,13 @@
         <div class="row">
           <div class="col-2" @click="handleShowReproductorOnFullScreen">
             <img
-              :src="musicReproductorStore.current.snippet.thumbnails.default.url"
+              :src="
+                musicReproductorStore.current.thumbnail
+                  ? `data:image/jpeg;base64,${musicReproductorStore.current.thumbnail}`
+                  : musicReproductorStore.current.snippet.thumbnails.default.url
+              "
               alt="thumbnail"
-              style="width: 50px; height: 50px"
+              style="width: 50px; height: 50px; border-radius: 8px"
             />
           </div>
           <div class="col-6" @click="handleShowReproductorOnFullScreen">
@@ -92,12 +96,20 @@
 
       <q-card-section class="flex flex-center" style="flex-grow: 1">
         <img
-          :src="musicReproductorStore.current.snippet.thumbnails.default.url"
+          :src="
+            musicReproductorStore.current.thumbnail
+              ? `data:image/jpeg;base64,${musicReproductorStore.current.thumbnail}`
+              : musicReproductorStore.current.snippet.thumbnails.default.url
+          "
           alt="thumbnail-background"
           style="width: 100%; height: 100%; border-radius: 8px; z-index: 1; filter: blur(10px)"
         />
         <img
-          :src="musicReproductorStore.current.snippet.thumbnails.default.url"
+          :src="
+            musicReproductorStore.current.thumbnail
+              ? `data:image/jpeg;base64,${musicReproductorStore.current.thumbnail}`
+              : musicReproductorStore.current.snippet.thumbnails.default.url
+          "
           alt="thumbnail"
           style="
             max-width: 80%;
@@ -251,7 +263,7 @@ import { useMusicStore } from 'src/stores/Music'
 
 import YoutubePlayer from 'youtube-player'
 import { formatYouTubeDuration, getCurrentMusicStructured } from 'src/utils/functions'
-import { readMusic } from 'src/utils/file'
+import { readMusic, readThumbnail } from 'src/utils/file'
 import { validate } from 'uuid'
 
 import MainHomePage from 'src/pages/IndexPage.vue'
@@ -432,6 +444,13 @@ watch(
       if (player.value) {
         player.value.stopVideo()
       }
+
+      // read the thumbnail from local
+      const thumbnail = await readThumbnail(newVideoId)
+      if (thumbnail) {
+        musicReproductorStore.current.thumbnail = thumbnail
+      }
+
       playLocal(newVideoId)
     }
 
