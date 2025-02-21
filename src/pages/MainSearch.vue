@@ -75,7 +75,7 @@ import { useI18n } from 'vue-i18n'
 import axios from 'axios'
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
 import { formatYouTubeDuration } from 'src/utils/functions'
-import { saveMusic } from 'src/utils/file'
+import { saveMusic, saveThumbnail } from 'src/utils/file'
 import { v4 } from 'uuid'
 import { useMusicStore } from 'src/stores/Music'
 import { useSettingsStore } from 'src/stores/Settings'
@@ -153,6 +153,11 @@ const downloadAudio = (videoId) => {
         saveMusic({
           uuid: uuid,
           file: response.audio_base64,
+        })
+
+        saveThumbnail({
+          uuid: uuid,
+          file: response.thumbnail_base64,
         })
 
         musicStore.add({
