@@ -59,11 +59,17 @@ export const useMusicStore = defineStore('music', {
       const ordered = [...this.downloaded]
       return ordered.sort((a, b) => (b.playTimes || 0) - (a.playTimes || 0)).slice(0, 10)
     },
-
+    getAllArtists() {
+      // get all artists names, avoid null and undefined
+      return [...new Set(this.downloaded.map(f => f.artist).filter(a => a))]
+    },
   },
   actions: {
     add(file) {
       this.downloaded.push(file)
+    },
+    getAllMusicByArtist(artist) {
+      return this.downloaded.filter(f => f.artist === artist)
     },
     // This method is used to set ALL downloaded files, is dangerous to use it
     setDownloaded(files) {

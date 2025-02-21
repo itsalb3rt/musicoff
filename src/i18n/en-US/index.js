@@ -31,6 +31,7 @@ export default {
     name: 'Name',
     noPlaylists: 'No playlists',
     playlistMusic: 'Playlist music',
+    artists: 'Artists',
   },
   messages: {
     searchForVideos: 'Search for videos',
