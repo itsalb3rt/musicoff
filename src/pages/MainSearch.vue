@@ -166,6 +166,7 @@ const downloadAudio = (videoId) => {
           title: videoFromVideos.snippet.title,
           duration: videoFromVideos?.contentDetails?.duration,
           thumbnail: videoFromVideos.snippet.thumbnails.default.url,
+          artist: response.artist || undefined,
           downloaded: true,
           createdAt: new Date(),
         })

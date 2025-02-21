@@ -195,6 +195,7 @@ const downloadAudio = async (videoId) => {
       })
 
       musicStore.downloaded[index].downloaded = true
+      musicStore.downloaded[index].artist = response.artist || undefined
     })
     .catch((error) => console.error('🚀 ~ downloadAudio ~ error', error))
     .finally(() => {
