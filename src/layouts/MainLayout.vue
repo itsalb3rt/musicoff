@@ -93,8 +93,22 @@
       <q-card-section class="flex flex-center" style="flex-grow: 1">
         <img
           :src="musicReproductorStore.current.snippet.thumbnails.default.url"
+          alt="thumbnail-background"
+          style="width: 100%; height: 100%; border-radius: 8px; z-index: 1; filter: blur(10px)"
+        />
+        <img
+          :src="musicReproductorStore.current.snippet.thumbnails.default.url"
           alt="thumbnail"
-          style="max-width: 80%; max-height: 60vh; border-radius: 8px"
+          style="
+            max-width: 80%;
+            max-height: 60vh;
+            border-radius: 8px;
+            z-index: 2;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          "
         />
       </q-card-section>
 
