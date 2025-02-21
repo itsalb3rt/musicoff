@@ -46,3 +46,50 @@ export const deleteMusic = async (uuid) => {
     console.error('Unable to delete file', error);
   }
 }
+
+export const saveThumbnail = async ({ uuid, file }) => {
+  try {
+    // Ensure the thumbnail directory exists
+    await Filesystem.mkdir({
+      path: 'thumbnails',
+      directory: Directory.Documents,
+      recursive: true // Ensures parent directories are created if needed
+    }).catch((error) => {
+      // Ignore error if directory already exists
+      if (error.message !== 'Directory already exists') {
+        throw error;
+      }
+    });
+
+    // Write the file
+    const { uri } = await Filesystem.writeFile({
+      path: `thumbnails/${uuid}.txt`,
+      data: file,
+      directory: Directory.Documents
+    });
+
+    return uri;
+  }
+  catch (error) {
+    console.error('Unable to write file', error);
+  }
+}
+
+export const readThumbnail = async (uuid) => {
+  try {
+    const { data } = await Filesystem.readFile({ path: 'thumbnails/' + uuid + '.txt', directory: Directory.Documents });
+    return data;
+  }
+  catch (error) {
+    console.error('Unable to read file', error);
+  }
+}
+
+export const deleteThumbnail = async (uuid) => {
+  try {
+    await Filesystem.deleteFile({ path: 'thumbnails/' + uuid + '.txt', directory: Directory.Documents });
+  }
+  catch (error) {
+    console.error('Unable to delete file', error);
+  }
+}
