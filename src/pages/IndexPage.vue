@@ -26,6 +26,28 @@
             </q-card-section>
           </q-card>
         </div>
+        <!-- Artists -->
+        <template v-if="musicStore.getAllArtists.length > 0">
+          <div class="col-12">
+            <p class="text-h6">
+              {{ $t('common.artists') }}
+            </p>
+          </div>
+          <div class="col-12">
+            <q-scroll-area visible style="height: 150px; max-width: 100%">
+              <div class="row no-wrap">
+                <div
+                  v-for="(artist, index) in musicStore.getAllArtists"
+                  :key="index"
+                  style="width: 150px"
+                  class="q-pa-sm"
+                >
+                  <ArtistCard @details="handleShowArtistList(artist)" :artist="artist" />
+                </div>
+              </div>
+            </q-scroll-area>
+          </div>
+        </template>
         <div class="col-12">
           <p class="text-h6">
             {{ $t('common.myPlaylists') }}
@@ -64,6 +86,31 @@
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Artists -->
+    <div v-if="tab === 'artist'">
+      <div class="row q-col-gutter-md items-center justify-center">
+        <div class="col-12">
+          <q-btn flat round dense icon="arrow_back" @click="tab = 'main'" />
+        </div>
+        <div class="col-12">
+          <p class="text-center q-my-lg">{{ currentArtist }}</p>
+          <div class="text-caption text-center text-grey-8">
+            {{ musicStore.getAllMusicByArtist(currentArtist).length }} {{ $t('common.music') }}
+          </div>
+          <div
+            class="q-my-sm"
+            v-for="(music, index) in musicStore.getAllMusicByArtist(currentArtist)"
+            :key="index"
+          >
+            <music-card
+              :show-options="false"
+              @play="musicStore.currentPlayList = musicStore.getAllMusicByArtist(currentArtist)"
+              :music="music"
+            />
           </div>
         </div>
       </div>
@@ -232,6 +279,7 @@ import PlayListCreationForm from 'components/playlist/PlayListCreationForm.vue'
 import PlayListDetails from 'components/playlist/PlayListDetails.vue'
 import PlayListEditionForm from 'components/playlist/PlayListEditionForm.vue'
 import { formatNumber } from 'src/utils/functions'
+import ArtistCard from 'components/artists/ArtistCard.vue'
 
 const tab = ref('main')
 const top10 = ref([])
@@ -243,6 +291,7 @@ const selectedPlaylist = ref({})
 const showPlaylistEditionForm = ref(false)
 const showResetPlayTimes = ref(false)
 const musicToResetPlayTimes = ref({})
+const currentArtist = ref('')
 
 // watch tab changes
 watch(tab, () => {
@@ -273,5 +322,10 @@ const handleResetPlayTimes = () => {
   musicStore.resetPlayTimes(musicToResetPlayTimes.value)
   showResetPlayTimes.value = false
   top10.value = musicStore.getTop10
+}
+
+const handleShowArtistList = (artist) => {
+  tab.value = 'artist'
+  currentArtist.value = artist
 }
 </script>
