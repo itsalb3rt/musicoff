@@ -10,7 +10,10 @@
     <q-card-section>
       <div class="row items-center q-col-gutter-md">
         <div @click="() => playAudio()" class="col-3" style="position: relative">
-          <q-img :src="music.thumbnail" alt="thumbnail" />
+          <q-img
+            :src="localThumbnail ? `data:image/jpeg;base64,${localThumbnail}` : music.thumbnail"
+            alt="thumbnail"
+          />
           <q-btn
             v-show="allowPlay"
             style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%)"
@@ -81,11 +84,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { formatYouTubeDuration, getCurrentMusicStructured, formatNumber } from 'src/utils/functions'
 import { useMusicReproductor } from 'src/stores/MusicReproductor'
 import { useMusicStore } from 'src/stores/Music'
-import { deleteMusic, deleteThumbnail } from 'src/utils/file'
+import { readThumbnail, deleteMusic, deleteThumbnail } from 'src/utils/file'
 
 const props = defineProps({
   music: Object,
@@ -111,9 +114,17 @@ const props = defineProps({
 const emit = defineEmits(['delete', 'play', 'reDownload'])
 
 const showDeleteDialog = ref(false)
+const localThumbnail = ref(null)
 
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
+
+onMounted(async () => {
+  const thumbnail = await readThumbnail(props.music.uuid)
+  if (thumbnail) {
+    localThumbnail.value = thumbnail
+  }
+})
 
 const dispatchDeleteMusic = () => {
   musicStore.remove(props.music.uuid)
