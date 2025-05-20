@@ -32,4 +32,4 @@ yarn-error.log*
 # local .env files
 .env.local*
 
-./server/cookies.txt
+server/cookies.txt
