@@ -54,7 +54,7 @@ def download_audio(request: VideoRequest, background_tasks: BackgroundTasks):
 
         # Get artist/uploader metadata
         artist = subprocess.run(
-            ["yt-dlp", "--cookies", "./cookies.txt" , "--print", "%(uploader)s", video_url],
+            ["yt-dlp", "--cookies", "/app/cookies.txt" , "--print", "%(uploader)s", video_url],
             capture_output=True,
             text=True
         ).stdout.strip()
