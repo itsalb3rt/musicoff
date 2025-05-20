@@ -23,16 +23,19 @@ class VideoRequest(BaseModel):
 OUTPUT_DIR = "downloads"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-def clean_old_files():
-    """Delete old MP3 and image files to save storage."""
-    for file in glob.glob(f"{OUTPUT_DIR}/*"):
-        os.remove(file)
+def clean_request_files(files_to_delete: list):
+    """Delete only the files generated during the current request."""
+    for file_path in files_to_delete:
+        if os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+            except Exception as e:
+                print(f"Error deleting file {file_path}: {e}")
 
 @app.post("/download-audio/")
 def download_audio(request: VideoRequest, background_tasks: BackgroundTasks):
     video_url = request.url
     output_audio_path = os.path.join(OUTPUT_DIR, "%(title)s.mp3")
-    output_thumbnail_path = os.path.join(OUTPUT_DIR, "%(title)s.%(ext)s")
 
     try:
         # Download audio and thumbnail
@@ -42,7 +45,7 @@ def download_audio(request: VideoRequest, background_tasks: BackgroundTasks):
                 "-f", "bestaudio",
                 "--extract-audio",
                 "--audio-format", "mp3",
-                "--write-thumbnail",  # Download thumbnail
+                "--write-thumbnail",
                 "-o", output_audio_path,
                 video_url
             ],
@@ -56,33 +59,38 @@ def download_audio(request: VideoRequest, background_tasks: BackgroundTasks):
             text=True
         ).stdout.strip()
 
-        # Get the latest downloaded MP3 file
+        # Identify downloaded audio
         audio_files = sorted(glob.glob(f"{OUTPUT_DIR}/*.mp3"), key=os.path.getctime, reverse=True)
         if not audio_files:
             return {"error": "No audio file found"}
         audio_file = audio_files[0]
 
-        # Convert MP3 to Base64
         with open(audio_file, "rb") as f:
             audio_base64 = base64.b64encode(f.read()).decode("utf-8")
 
-        # Get the latest downloaded thumbnail file
+        # Identify thumbnail
         thumbnail_files = sorted(
-            glob.glob(f"{OUTPUT_DIR}/*.jpg") + glob.glob(f"{OUTPUT_DIR}/*.png") + glob.glob(f"{OUTPUT_DIR}/*.webp"),
+            glob.glob(f"{OUTPUT_DIR}/*.jpg") +
+            glob.glob(f"{OUTPUT_DIR}/*.png") +
+            glob.glob(f"{OUTPUT_DIR}/*.webp"),
             key=os.path.getctime,
             reverse=True
         )
 
         thumbnail_base64 = None
+        thumbnail_file = None
         if thumbnail_files:
             thumbnail_file = thumbnail_files[0]
             with open(thumbnail_file, "rb") as f:
                 thumbnail_base64 = base64.b64encode(f.read()).decode("utf-8")
 
-        # Schedule cleanup after request
-        background_tasks.add_task(clean_old_files)
+        # Track only current request files for cleanup
+        files_to_cleanup = [audio_file]
+        if thumbnail_file:
+            files_to_cleanup.append(thumbnail_file)
 
-        # Return Base64-encoded audio, thumbnail, and artist
+        background_tasks.add_task(clean_request_files, files_to_cleanup)
+
         return {
             "filename": os.path.basename(audio_file),
             "audio_base64": audio_base64,
