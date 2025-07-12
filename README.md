@@ -94,8 +94,12 @@ If you like Musicoff and want to support its development, consider becoming a sp
 
 > 📢 [**Become a GitHub Sponsor**](https://github.com/sponsors/itsalb3rt) to support continued development and get a shoutout in the project!
 
+And the core project made this possible by [Quasar Framework](https://quasar.dev/).
+
 ---
 
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+Made with ❤️ by [Albert](https://github.com/sponsors/itsalb3rt) using [Quasar Framework](https://quasar.dev/).
