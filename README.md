@@ -1,46 +1,101 @@
-# An application to listen offline music (musicoff)
+# 🎵 Musicoff – Listen to Your Favorite Music Offline
 
-Listen your favorite music offline with Musicoff. This application allows you to download music from YouTube and listen to it without an internet connection and no ads.
+[![License](https://img.shields.io/github/license/itsalb3rt/musicoff)](LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/itsalb3rt/musicoff?style=social)](https://github.com/itsalb3rt/musicoff/stargazers)
+[![GitHub Sponsors](https://img.shields.io/badge/sponsor-❤️-brightgreen?style=flat&logo=github)](https://github.com/sponsors/itsalb3rt)
 
-## Get Google API Key
+Musicoff is a simple, beautiful app that lets you **download music from YouTube** and listen to it **offline without ads**. It’s fully open source and built to give you freedom over your music.
 
-Follow the steps below to get your Google API key: https://developers.google.com/youtube/v3/getting-started
+<img src="/docs/1.jpeg" alt="Musicoff Screenshot 1" width="300">
+<img src="/docs/2.jpeg" alt="Musicoff Screenshot 2" width="300">
+<img src="/docs/3.jpeg" alt="Musicoff Screenshot 3" width="300">
+<img src="/docs/4.jpeg" alt="Musicoff Screenshot 4" width="300">
 
-## Features
+---
 
-- Listen offline music
-- Download music from youtube
-- Automatic top 10 music you listen
-- Playlists
-- Random music
-- Filters, sorts, and search
-- Add music to favorites
+## ✨ Features
 
-## Frontend
+- 🎧 Listen to music offline
+- ⬇️ Download music directly from YouTube
+- 📈 Auto-generated Top 10 list based on your listening habits
+- 🎶 Playlist management
+- 🔀 Shuffle and random playback
+- 🔍 Filters, sorting, and search
+- ❤️ Add songs to your favorites
 
-**Install the dependencies**
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/itsalb3rt/musicoff.git
+cd musicoff
+```
+
+### 2. Get a Google API Key
+
+To enable YouTube access, follow these steps to get your [Google API key](https://developers.google.com/youtube/v3/getting-started).
+
+---
+
+## 📱 Frontend Setup
+
+### Install dependencies
 
 ```bash
 yarn install
 ```
 
-**Start the app in development mode (hot-code reloading, error reporting, etc.)**
+### Start in development mode
 
 ```bash
 yarn dev:ios
 ```
 
-**Build the app for production**
+### Build for production
 
 ```bash
 yarn build:ios
 ```
 
-## Backend
+---
 
-This application uses a Python backend to handle requests and manage downloads. The unique propuse of the backend is to download music from YouTube and store it locally, you no need a server running all the time, you can run locally only when you need to download music.
+## 🐍 Backend (Python)
+
+The backend handles downloading music from YouTube. You only need to run it when you're downloading songs—**no need to keep a server running all the time**.
 
 ```bash
 cd server
 python3 app.py
 ```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions of all kinds! Whether it's fixing a bug, improving documentation, or adding a new feature — we’d love your help.
+
+### To contribute:
+
+1. Fork the repository
+2. Create a new branch: `git checkout -b feature-name`
+3. Make your changes
+4. Submit a Pull Request 🙌
+
+Please read our `CONTRIBUTING.md` (coming soon) for more details.
+
+---
+
+## 💖 Support the Project
+
+If you like Musicoff and want to support its development, consider becoming a sponsor!
+
+> 📢 [**Become a GitHub Sponsor**](https://github.com/sponsors/itsalb3rt) to support continued development and get a shoutout in the project!
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
