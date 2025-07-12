@@ -2,6 +2,10 @@
 
 An application to listen offline music
 
+## Get Google API Key
+
+Follow the steps below to get your Google API key: https://developers.google.com/youtube/v3/getting-started
+
 ## Features
 
 - Listen offline music

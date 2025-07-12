@@ -98,7 +98,7 @@ const searchVideos = async () => {
       part: 'snippet',
       q: query.value,
       type: 'video',
-      key: 'AIzaSyANuwx4onWoG4y7hz_RJtkkItq0BVJ8NWU',
+      key: process.env.GOOGLE_API_KEY,
     },
   })
 
@@ -107,7 +107,7 @@ const searchVideos = async () => {
     params: {
       part: 'contentDetails',
       id: videoIds,
-      key: 'AIzaSyANuwx4onWoG4y7hz_RJtkkItq0BVJ8NWU',
+      key: process.env.GOOGLE_API_KEY,
     },
   })
 
