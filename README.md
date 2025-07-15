@@ -102,4 +102,15 @@ And the core project made this possible by [Quasar Framework](https://quasar.dev
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
+---
+
+## ⚠️ Disclaimer
+
+Musicoff is intended for **personal, educational, and non-commercial use only**. This application allows users to download music from YouTube for offline listening, but **you are solely responsible for ensuring that your use complies with copyright laws** in your country.
+
+> Downloading copyrighted content without permission may violate YouTube's Terms of Service and local laws.  
+> The developers of this project do **not condone or support piracy**.
+
+---
+
 Made with ❤️ by [Albert](https://github.com/sponsors/itsalb3rt) using [Quasar Framework](https://quasar.dev/).
