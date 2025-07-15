@@ -6,11 +6,12 @@
 
 Musicoff is a simple, beautiful app that lets you **download music from YouTube** and listen to it **offline without ads**. It’s fully open source and built to give you freedom over your music.
 
-<img src="/docs/1.jpeg" alt="Musicoff Screenshot 1" width="300">
-<img src="/docs/2.jpeg" alt="Musicoff Screenshot 2" width="300">
-<img src="/docs/3.jpeg" alt="Musicoff Screenshot 3" width="300">
-<img src="/docs/4.jpeg" alt="Musicoff Screenshot 4" width="300">
-
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+  <img src="/docs/1.jpeg" alt="Musicoff Screenshot 1" width="300">
+  <img src="/docs/2.jpeg" alt="Musicoff Screenshot 2" width="300">
+  <img src="/docs/3.jpeg" alt="Musicoff Screenshot 3" width="300">
+  <img src="/docs/4.jpeg" alt="Musicoff Screenshot 4" width="300">
+</div>
 ---
 
 ## ✨ Features
