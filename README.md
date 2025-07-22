@@ -57,7 +57,7 @@ yarn dev:android
 yarn build:android
 ```
 
-WIP next instructions for Android:
+After building the Android studio is supposed to open, now you can push the "Play" button in Android Studio to run the app on an emulator or connected device and the app will be installed automatically.
 
 ## iOS
 
@@ -73,7 +73,7 @@ yarn dev:ios
 yarn build:ios
 ```
 
-WIP next instructions for iOS:
+After building, The Xcode is supposed to open. You can then run the app on an emulator or connected device by pressing the "Play" button in Xcode.
 
 ---
 
