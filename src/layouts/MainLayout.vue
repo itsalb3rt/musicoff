@@ -392,21 +392,23 @@ onMounted(() => {
     }
   })
 
-  navigator.mediaSession.setActionHandler('play', async () => {
-    play()
-  })
+  if (navigator.mediaSession) {
+    navigator.mediaSession.setActionHandler('play', async () => {
+      play()
+    })
 
-  navigator.mediaSession.setActionHandler('pause', () => {
-    pause()
-  })
+    navigator.mediaSession.setActionHandler('pause', () => {
+      pause()
+    })
 
-  navigator.mediaSession.setActionHandler('previoustrack', () => {
-    back()
-  })
+    navigator.mediaSession.setActionHandler('previoustrack', () => {
+      back()
+    })
 
-  navigator.mediaSession.setActionHandler('nexttrack', () => {
-    next()
-  })
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+      next()
+    })
+  }
 
   audioRef.value.onended = () => {
     if (musicReproductorStore.repeat) {
