@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MusicOff</string>
+    <string name="title_activity_main">MusicOff</string>
+    <string name="package_name">org.music.off.app</string>
+    <string name="custom_url_scheme">org.music.off.app</string>
+</resources>

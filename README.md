@@ -43,17 +43,37 @@ To enable YouTube access, follow these steps to get your [Google API key](https:
 yarn install
 ```
 
+## Android
+
+### Start in development mode
+
+```bash
+yarn dev:android
+```
+
+### Build your own version for android
+
+```bash
+yarn build:android
+```
+
+WIP next instructions for Android:
+
+## iOS
+
 ### Start in development mode
 
 ```bash
 yarn dev:ios
 ```
 
-### Build for production
+### Build your own version for iOS
 
 ```bash
 yarn build:ios
 ```
+
+WIP next instructions for iOS:
 
 ---
 

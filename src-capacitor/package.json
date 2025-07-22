@@ -5,6 +5,7 @@
   "author": "Albert Hidalgo <itsalb3rt@gmail.com>",
   "private": true,
   "dependencies": {
+    "@capacitor/android": "^6.0.0",
     "@capacitor/app": "^6.0.0",
     "@capacitor/cli": "^6.0.0",
     "@capacitor/clipboard": "^7.0.0",
