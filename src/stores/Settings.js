@@ -5,7 +5,8 @@ export const useSettingsStore = defineStore('settingsStore', {
   state: () => ({
     theme: 'dark',
     locale: 'en',
-    server: ''
+    server: '',
+    googleAPIKey: undefined,
   }),
   getters: {},
   actions: {}

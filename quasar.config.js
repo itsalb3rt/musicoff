@@ -29,7 +29,6 @@ export default defineConfig((ctx) => {
       env: {
         // To get a key follow the steps below:
         // https://developers.google.com/youtube/v3/getting-started
-        GOOGLE_API_KEY: process.env.GOOGLE_API_KEY || 'INSER_YOUR_GOOGLE_API_KEY_HERE'
       },
 
       vitePlugins: [

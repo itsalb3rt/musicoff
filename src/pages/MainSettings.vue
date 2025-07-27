@@ -6,9 +6,37 @@
     <div class="row q-col-gutter-md">
       <div class="col-12">
         <q-input rounded outlined v-model="server" :label="$t('common.server')" />
-        <p class="text-caption text-grey">
+        <p class="text-caption text-grey q-mt-sm">
           {{ $t('messages.serverInformation') }}
         </p>
+      </div>
+      <div class="col-12">
+        <q-input
+          :type="showGoogleAPIKey ? 'text' : 'password'"
+          rounded
+          outlined
+          v-model="googleAPIKey"
+          label="Google API KEY"
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="showGoogleAPIKey ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="showGoogleAPIKey = !showGoogleAPIKey"
+            />
+          </template>
+        </q-input>
+        <p class="text-caption text-grey q-mt-sm">
+          {{ $t('messages.googleAPIKeyInformation') }}
+        </p>
+        <a
+          class="text-primary"
+          href="https://developers.google.com/youtube/v3/getting-started"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Google API Key Documentation
+        </a>
       </div>
       <div class="col-12">
         <q-separator />
@@ -93,6 +121,8 @@ const $t = useI18n().t
 const settingsStore = useSettingsStore()
 const musicStore = useMusicStore()
 const server = ref(settingsStore.server)
+const googleAPIKey = ref(settingsStore.googleAPIKey || undefined)
+const showGoogleAPIKey = ref(false)
 const creatingBackup = ref(false)
 const restoringBackup = ref(false)
 const showRestoreBackupDialog = ref(false)
@@ -185,6 +215,7 @@ const downloadMusicBackupFile = async () => {
 
 const handleSave = () => {
   settingsStore.server = server.value
+  settingsStore.googleAPIKey = googleAPIKey.value
 
   $q.notify({
     message: $t('common.settingsSaved'),

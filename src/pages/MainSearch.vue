@@ -65,6 +65,28 @@
       </q-card-section>
     </q-card>
     <div style="height: 100px" />
+    <q-dialog v-model="showGoogleAPIKeyNeedConfigDialog">
+      <q-card flat>
+        <q-card-section>
+          <p class="text-h6">
+            {{ $t('common.googleAPIKeyRequired') }}
+          </p>
+          <div class="text-caption text-grey q-mt-sm">
+            {{ $t('messages.googleAPIKeyRequiredInformation1') }}
+            {{ $t('messages.googleAPIKeyRequiredInformation2') }} <q-icon name="settings" />
+            {{ $t('messages.googleAPIKeyRequiredInformation3') }}
+          </div>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn
+            rounded
+            color="primary"
+            @click="showGoogleAPIKeyNeedConfigDialog = false"
+            :label="$t('action.close')"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -83,6 +105,7 @@ import { useSettingsStore } from 'src/stores/Settings'
 const musicReproductorStore = useMusicReproductor()
 const musicStore = useMusicStore()
 const settingsStore = useSettingsStore()
+const showGoogleAPIKeyNeedConfigDialog = ref(false)
 const $q = useQuasar()
 const $t = useI18n().t
 
@@ -92,13 +115,22 @@ const loadingSearch = ref(false)
 const downloadingVideoId = ref('')
 
 const searchVideos = async () => {
+  if (!settingsStore.googleAPIKey) {
+    showGoogleAPIKeyNeedConfigDialog.value = true
+    return
+  }
+
+  if (!query.value.trim()) {
+    return
+  }
+
   loadingSearch.value = true
   const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
     params: {
       part: 'snippet',
       q: query.value,
       type: 'video',
-      key: process.env.GOOGLE_API_KEY,
+      key: settingsStore.googleAPIKey,
     },
   })
 
@@ -107,7 +139,7 @@ const searchVideos = async () => {
     params: {
       part: 'contentDetails',
       id: videoIds,
-      key: process.env.GOOGLE_API_KEY,
+      key: settingsStore.googleAPIKey,
     },
   })
 
