@@ -5,7 +5,11 @@
     </p>
     <div class="row q-col-gutter-md">
       <div class="col-12">
-        <q-input rounded outlined v-model="server" :label="$t('common.server')" />
+        <q-input rounded outlined v-model="server" :label="$t('common.server')">
+          <template v-slot:after>
+            <q-btn icon="wifi" round color="primary" @click="handleTestServer" />
+          </template>
+        </q-input>
         <p class="text-caption text-grey q-mt-sm">
           {{ $t('messages.serverInformation') }}
         </p>
@@ -111,6 +115,8 @@
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
+import axios from 'axios'
+
 import { useSettingsStore } from 'src/stores/Settings'
 import { useMusicStore } from 'src/stores/Music'
 import { Clipboard } from 'app/src-capacitor/node_modules/@capacitor/clipboard'
@@ -214,13 +220,45 @@ const downloadMusicBackupFile = async () => {
 }
 
 const handleSave = () => {
-  settingsStore.server = server.value
-  settingsStore.googleAPIKey = googleAPIKey.value
+  settingsStore.server = server.value ? server.value.trim() : ''
+  settingsStore.googleAPIKey = googleAPIKey.value ? googleAPIKey.value.trim() : undefined
 
   $q.notify({
     message: $t('common.settingsSaved'),
     color: 'positive',
     position: 'bottom',
   })
+}
+
+const handleTestServer = async () => {
+  try {
+    // check if server a URL, protocol can be http or https
+    if (!/^https?:\/\//.test(server.value)) {
+      return
+    }
+
+    $q.loading.show({
+      message: $t('messages.testingServer'),
+    })
+
+    await axios.get(`${server.value}/health`, {
+      timeout: 5000,
+    })
+    $q.notify({
+      message: $t('messages.serverTestSuccess'),
+      color: 'positive',
+      position: 'bottom',
+    })
+    settingsStore.server = server.value
+  } catch (error) {
+    console.error(error)
+    $q.notify({
+      message: $t('error.serverTestFailed'),
+      color: 'negative',
+      position: 'bottom',
+    })
+  } finally {
+    $q.loading.hide()
+  }
 }
 </script>
