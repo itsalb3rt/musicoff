@@ -7,12 +7,7 @@ export const saveMusic = async ({ uuid, file }) => {
       path: 'music',
       directory: Directory.Documents,
       recursive: true // Ensures parent directories are created if needed
-    }).catch((error) => {
-      // Ignore error if directory already exists
-      if (error.message !== 'Directory already exists') {
-        throw error;
-      }
-    });
+    })
 
     // Write the file
     const { uri } = await Filesystem.writeFile({
@@ -54,12 +49,7 @@ export const saveThumbnail = async ({ uuid, file }) => {
       path: 'thumbnails',
       directory: Directory.Documents,
       recursive: true // Ensures parent directories are created if needed
-    }).catch((error) => {
-      // Ignore error if directory already exists
-      if (error.message !== 'Directory already exists') {
-        throw error;
-      }
-    });
+    })
 
     // Write the file
     const { uri } = await Filesystem.writeFile({
