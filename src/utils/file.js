@@ -19,6 +19,15 @@ export const saveMusic = async ({ uuid, file }) => {
     return uri;
   } catch (error) {
     console.error('Unable to write file', error);
+
+    console.log('retrying without directory creation');
+    // Retry without directory creation
+    const { uri } = await Filesystem.writeFile({
+      path: `music/${uuid}.txt`,
+      data: file,
+      directory: Directory.Documents
+    });
+    return uri;
   }
 };
 
@@ -62,6 +71,15 @@ export const saveThumbnail = async ({ uuid, file }) => {
   }
   catch (error) {
     console.error('Unable to write file', error);
+
+    console.log('retrying without directory creation');
+    // Retry without directory creation
+    const { uri } = await Filesystem.writeFile({
+      path: `thumbnails/${uuid}.txt`,
+      data: file,
+      directory: Directory.Documents
+    });
+    return uri;
   }
 }
 
