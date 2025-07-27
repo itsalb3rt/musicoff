@@ -7,12 +7,7 @@ export const saveMusic = async ({ uuid, file }) => {
       path: 'music',
       directory: Directory.Documents,
       recursive: true // Ensures parent directories are created if needed
-    }).catch((error) => {
-      // Ignore error if directory already exists
-      if (error.message !== 'Directory already exists') {
-        throw error;
-      }
-    });
+    })
 
     // Write the file
     const { uri } = await Filesystem.writeFile({
@@ -24,6 +19,15 @@ export const saveMusic = async ({ uuid, file }) => {
     return uri;
   } catch (error) {
     console.error('Unable to write file', error);
+
+    console.log('retrying without directory creation');
+    // Retry without directory creation
+    const { uri } = await Filesystem.writeFile({
+      path: `music/${uuid}.txt`,
+      data: file,
+      directory: Directory.Documents
+    });
+    return uri;
   }
 };
 
@@ -54,12 +58,7 @@ export const saveThumbnail = async ({ uuid, file }) => {
       path: 'thumbnails',
       directory: Directory.Documents,
       recursive: true // Ensures parent directories are created if needed
-    }).catch((error) => {
-      // Ignore error if directory already exists
-      if (error.message !== 'Directory already exists') {
-        throw error;
-      }
-    });
+    })
 
     // Write the file
     const { uri } = await Filesystem.writeFile({
@@ -72,6 +71,15 @@ export const saveThumbnail = async ({ uuid, file }) => {
   }
   catch (error) {
     console.error('Unable to write file', error);
+
+    console.log('retrying without directory creation');
+    // Retry without directory creation
+    const { uri } = await Filesystem.writeFile({
+      path: `thumbnails/${uuid}.txt`,
+      data: file,
+      directory: Directory.Documents
+    });
+    return uri;
   }
 }
 
