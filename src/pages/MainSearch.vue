@@ -169,7 +169,7 @@ const downloadAudio = (videoId) => {
 
   downloadingVideoId.value = videoId
   const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
-  fetch(settingsStore.server, {
+  fetch(`${settingsStore.server}/download-audio`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

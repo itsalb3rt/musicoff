@@ -55,6 +55,7 @@ export default defineConfig((ctx) => {
       config: {},
       plugins: [
         'Notify',
+        'Loading'
       ]
     },
 

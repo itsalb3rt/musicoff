@@ -39,7 +39,7 @@ export default {
     areYouSureYouWantToDelete: 'Are you sure you want to delete?',
     searchYoutubeVideos: 'Search YouTube videos',
     noResults: 'No results',
-    serverInformation: 'The server is the address of the server that will process the music so that it is available when you are not connected. For example: http://localhost:3000/download-audio',
+    serverInformation: 'The server is the address of the server that will process the music so that it is available when you are not connected. For example: http://localhost:4000',
     googleAPIKeyInformation: 'The Google API key is used to search for videos on YouTube. To get a key follow the steps below:',
     downloadMusicBackupFileInformation: 'Download a JSON backup file to your phone. This file contains all the information of the music you have downloaded. NO THE MUSIC ITSELF.',
     musicBackupFileCopiedToClipboard: 'Music backup file copied to clipboard',
@@ -56,12 +56,14 @@ export default {
     googleAPIKeyRequiredInformation1: 'Google API key is required to search for videos on YouTube.',
     googleAPIKeyRequiredInformation2: 'Please go to settings',
     googleAPIKeyRequiredInformation3: ' and configure the Google API key.',
+    serverTestSuccess: 'Server test successful and saved',
   },
   error: {
     serverNotConfigured: 'Server not configured, go to settings and configure the server',
     musicBackupFileRestoreError: 'Error restoring music backup file, look like the file is invalid or improperly formatted',
     downloadErrorPleaseTryAgain: 'Download error, please try again',
     requiredField: 'Required field',
+    serverTestFailed: 'Server test failed, please check the server address and try again',
   },
   action: {
     delete: 'Delete',
