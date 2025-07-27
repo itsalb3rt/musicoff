@@ -83,7 +83,7 @@
         />
       </q-card-section>
       <q-card-section>
-        <div class="text-h6 text-center">
+        <div class="text-h6 text-center ellipsis-2-lines">
           {{ musicReproductorStore.current.snippet.title }}
         </div>
         <div class="text-center text-caption text-grey-8">
