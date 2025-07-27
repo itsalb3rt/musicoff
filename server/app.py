@@ -32,6 +32,11 @@ def clean_request_files(files_to_delete: list):
             except Exception as e:
                 print(f"Error deleting file {file_path}: {e}")
 
+# add a health check endpoint
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
 @app.post("/download-audio/")
 def download_audio(request: VideoRequest, background_tasks: BackgroundTasks):
     video_url = request.url

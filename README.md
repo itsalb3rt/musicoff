@@ -86,6 +86,11 @@ cd server
 python3 app.py
 ```
 
+Enpoints:
+
+- `GET http://localhost:4000/download-audio`: Download a song from YouTube
+- `GET http://localhost:4000/health`: Check the health status of the server
+
 ---
 
 ## 🤝 Contributing
