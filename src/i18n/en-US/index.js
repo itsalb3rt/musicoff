@@ -32,13 +32,15 @@ export default {
     noPlaylists: 'No playlists',
     playlistMusic: 'Playlist music',
     artists: 'Artists',
+    googleAPIKeyRequired: 'Google API key required',
   },
   messages: {
     searchForVideos: 'Search for videos',
     areYouSureYouWantToDelete: 'Are you sure you want to delete?',
     searchYoutubeVideos: 'Search YouTube videos',
     noResults: 'No results',
-    serverInformation: 'The server is the address of the server that will process the music so that it is available when you are not connected. For example: http://localhost:3000',
+    serverInformation: 'The server is the address of the server that will process the music so that it is available when you are not connected. For example: http://localhost:3000/download-audio',
+    googleAPIKeyInformation: 'The Google API key is used to search for videos on YouTube. To get a key follow the steps below:',
     downloadMusicBackupFileInformation: 'Download a JSON backup file to your phone. This file contains all the information of the music you have downloaded. NO THE MUSIC ITSELF.',
     musicBackupFileCopiedToClipboard: 'Music backup file copied to clipboard',
     musicBackupFileRestored: 'Music backup file restored',
@@ -51,6 +53,9 @@ export default {
     dragTheMusicToChangeTheOrder: 'Drag the music to change the order',
     downloaded: 'Downloaded',
     resetPlayTimesConfirmation: 'Are you sure you want to reset the play times?',
+    googleAPIKeyRequiredInformation1: 'Google API key is required to search for videos on YouTube.',
+    googleAPIKeyRequiredInformation2: 'Please go to settings',
+    googleAPIKeyRequiredInformation3: ' and configure the Google API key.',
   },
   error: {
     serverNotConfigured: 'Server not configured, go to settings and configure the server',
@@ -76,5 +81,7 @@ export default {
     download: 'Download',
     resetPlayTimes: 'Reset play times',
     reset: 'Reset',
+    close: 'Close',
+    goToSettings: 'Go to settings',
   }
 }
